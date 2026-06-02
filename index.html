@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Top Crew Solutions</title>
+<meta name="theme-color" content="#ffffff">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Top Crew">
+<meta name="application-name" content="Top Crew">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+<style>
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;margin:0;padding:0;background:#f5f5f7;color:#1d1d1f;font-size:15px;line-height:1.4;padding-bottom:80px}
+  .header{background:#fff;padding:14px 16px;border-bottom:1px solid #e5e5ea;position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center}
+  .header h1{margin:0;font-size:17px;font-weight:600}
+  .header .date{font-size:13px;color:#86868b}
+  .container{padding:16px;max-width:600px;margin:0 auto}
+  .card{background:#fff;border-radius:12px;padding:14px;margin-bottom:12px;box-shadow:0 1px 2px rgba(0,0,0,0.04)}
+  .label{display:block;font-size:13px;color:#6e6e73;margin-bottom:6px;font-weight:500}
+  select,input{width:100%;padding:11px 12px;border:1px solid #d2d2d7;border-radius:8px;font-size:16px;background:#fff;font-family:inherit;-webkit-appearance:none;appearance:none}
+  select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23666' d='M6 8L0 0h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:34px}
+  select:focus,input:focus{outline:none;border-color:#007aff}
+  .btn{display:inline-block;padding:12px 16px;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;width:100%;text-align:center}
+  .btn-primary{background:#007aff;color:#fff}
+  .btn-primary:active{background:#0051d5}
+  .btn-secondary{background:#e8e8ed;color:#1d1d1f}
+  .btn-danger{background:#ff3b30;color:#fff;padding:8px 12px;font-size:13px;width:auto}
+  .btn-ghost{background:transparent;color:#007aff;padding:8px;font-size:14px;width:auto;font-weight:500}
+  .row{display:flex;gap:8px;margin-bottom:10px}
+  .row > *{flex:1}
+  .tier-pill{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:#f5f5f7;border-radius:8px;margin-bottom:6px;cursor:pointer;border:2px solid transparent;font-size:14px}
+  .tier-pill.selected{background:#e3f2ff;border-color:#007aff}
+  .tier-pill .price{font-weight:600;color:#007aff;white-space:nowrap;margin-left:8px}
+  .tier-pill .label-txt{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .section-tabs{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+  .section-tab{padding:7px 12px;background:#f5f5f7;border-radius:16px;font-size:13px;cursor:pointer;border:1px solid transparent;font-weight:500}
+  .section-tab.active{background:#007aff;color:#fff}
+  .size-toggle{display:flex;background:#f5f5f7;border-radius:8px;padding:3px;margin-bottom:10px}
+  .size-toggle button{flex:1;padding:9px;background:transparent;border:none;border-radius:6px;cursor:pointer;font-size:14px;font-weight:500;color:#6e6e73}
+  .size-toggle button.active{background:#fff;color:#1d1d1f;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
+  .extra-item{display:flex;align-items:center;gap:8px;padding:8px 0;border-top:1px solid #f0f0f3}
+  .extra-item:first-child{border-top:none}
+  .extra-name{flex:1;font-size:14px;min-width:0;overflow:hidden;text-overflow:ellipsis}
+  .extra-rate{font-size:12px;color:#86868b;margin-right:6px}
+  .qty-input{width:62px;flex:0 0 62px}
+  .summary-card{background:#fff;border-radius:12px;padding:14px;margin-bottom:12px;border:2px solid #007aff}
+  .summary-card .total-line{display:flex;justify-content:space-between;padding:6px 0;font-size:14px}
+  .summary-card .total-final{display:flex;justify-content:space-between;padding:10px 0;font-size:20px;font-weight:700;border-top:2px solid #1d1d1f;margin-top:6px}
+  .day-entry{background:#fff;border-radius:12px;padding:12px;margin-bottom:10px;box-shadow:0 1px 2px rgba(0,0,0,0.04)}
+  .day-entry-header{display:flex;justify-content:space-between;align-items:start;margin-bottom:6px}
+  .day-entry .customer{font-size:15px;font-weight:600}
+  .day-entry .meta{font-size:12px;color:#6e6e73;margin-top:2px}
+  .day-entry .amount{font-size:18px;font-weight:600;color:#007aff;white-space:nowrap;margin-left:8px}
+  .day-entry .breakdown{font-size:12px;color:#6e6e73;margin-top:6px;line-height:1.5}
+  .day-total-card{background:#1d1d1f;color:#fff;border-radius:12px;padding:16px;margin-bottom:14px}
+  .day-total-card .label-light{font-size:13px;opacity:0.7;font-weight:500}
+  .day-total-card .total{font-size:28px;font-weight:700;margin-top:4px}
+  .day-total-card .meta-line{font-size:12px;opacity:0.7;margin-top:6px}
+  .empty-state{text-align:center;padding:32px 16px;color:#86868b;font-size:14px}
+  .empty-state .icon{font-size:36px;margin-bottom:8px;opacity:0.4}
+  .tab-bar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e5e5ea;display:flex;padding:6px 0 max(6px, env(safe-area-inset-bottom));z-index:20}
+  .tab-bar button{flex:1;background:transparent;border:none;padding:8px;font-size:11px;color:#86868b;cursor:pointer;font-family:inherit;display:flex;flex-direction:column;align-items:center;gap:2px;font-weight:500}
+  .tab-bar button.active{color:#007aff}
+  .tab-bar svg{width:22px;height:22px}
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:100;display:flex;align-items:flex-end;padding:0}
+  .modal-content{background:#fff;width:100%;max-height:88vh;overflow-y:auto;border-radius:14px 14px 0 0;padding:16px;padding-bottom:max(16px, env(safe-area-inset-bottom))}
+  .modal-content h2{margin:0 0 14px;font-size:18px}
+  .hidden{display:none !important}
+  .info-pill{display:inline-block;background:#fff3cd;color:#856404;font-size:11px;padding:2px 8px;border-radius:10px;margin-left:6px}
+  .addr-row{font-size:12px;color:#6e6e73;margin-top:4px;line-height:1.4}
+  .totals-by-customer{background:#fff;border-radius:12px;padding:12px 14px;margin-bottom:10px}
+  .totals-by-customer h3{margin:0 0 8px;font-size:14px;font-weight:600;color:#6e6e73}
+  .totals-by-customer .ct-row{display:flex;justify-content:space-between;padding:5px 0;font-size:14px}
+  .totals-by-customer .ct-row .ct-amt{font-weight:600}
+  .clear-day-btn{background:transparent;color:#ff3b30;border:1px solid #ff3b30;padding:10px;border-radius:8px;font-size:14px;font-weight:500;width:100%;margin-top:10px}
+  /* Personas */
+  .person-row{display:flex;align-items:center;gap:6px;margin-bottom:8px;padding:8px;background:#f5f5f7;border-radius:8px}
+  .person-row input.name-input{flex:1;font-size:14px;padding:8px 10px;min-width:0}
+  .person-pct-group{display:flex;gap:3px}
+  .pct-btn{padding:6px 9px;background:#fff;border:1px solid #d2d2d7;border-radius:6px;font-size:12px;cursor:pointer;font-family:inherit;font-weight:500;min-width:34px}
+  .pct-btn.active{background:#007aff;color:#fff;border-color:#007aff}
+  .person-share{font-size:12px;color:#34c759;font-weight:600;margin-left:4px;min-width:60px;text-align:right}
+  .person-del{background:transparent;border:none;color:#ff3b30;font-size:18px;padding:4px 6px;cursor:pointer;line-height:1}
+  .add-person-btn{display:block;width:100%;padding:9px;background:#fff;border:1px dashed #007aff;border-radius:8px;color:#007aff;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;margin-top:4px}
+  .people-summary{background:#e8f5e9;border-radius:8px;padding:9px 11px;margin-top:8px;font-size:12px;color:#1b5e20;line-height:1.5}
+  .people-warning{background:#fff3cd;color:#856404;border-radius:8px;padding:9px 11px;margin-top:8px;font-size:12px;line-height:1.5}
+  /* Day view personas */
+  .day-people{margin-top:8px;padding-top:8px;border-top:1px dashed #e5e5ea;font-size:13px}
+  .day-people-row{display:flex;justify-content:space-between;padding:3px 0;color:#1d1d1f}
+  .day-people-row .name{color:#6e6e73}
+  .day-people-row .amt{font-weight:600}
+  .totals-by-person{background:#fff;border-radius:12px;padding:12px 14px;margin-bottom:10px;border-left:4px solid #34c759}
+  .totals-by-person h3{margin:0 0 8px;font-size:14px;font-weight:600;color:#6e6e73}
+  .totals-by-person .ct-row{display:flex;justify-content:space-between;padding:5px 0;font-size:15px}
+  .totals-by-person .ct-row .ct-amt{font-weight:600;color:#34c759}
+  .export-buttons{display:flex;gap:8px;margin-bottom:10px}
+  .export-buttons button{flex:1;padding:11px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;border:none}
+  .btn-whatsapp{background:#25d366;color:#fff}
+  .btn-copy{background:#5856d6;color:#fff}
+  .toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%);background:#1d1d1f;color:#fff;padding:10px 18px;border-radius:8px;font-size:14px;z-index:200;opacity:0;transition:opacity 0.2s;pointer-events:none}
+  .toast.show{opacity:1}
+  /* Crew tab */
+  .crew-empty{text-align:center;padding:24px 16px;color:#86868b;font-size:14px}
+  .crew-member{display:flex;align-items:center;gap:8px;padding:11px 14px;background:#fff;border-radius:10px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,0.04)}
+  .crew-member .name{flex:1;font-size:15px;font-weight:500;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .crew-member .del-btn{background:transparent;border:none;color:#ff3b30;font-size:20px;padding:4px 8px;cursor:pointer;line-height:1}
+  .add-crew-row{display:flex;gap:8px;margin-bottom:12px}
+  .add-crew-row input{flex:1}
+  .add-crew-row button{padding:11px 16px;background:#007aff;color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap}
+  /* Chip selector en formulario */
+  .chip-grid{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+  .chip{display:inline-flex;align-items:center;gap:0;background:#fff;border:1.5px solid #d2d2d7;border-radius:18px;padding:0;overflow:hidden;font-size:14px;cursor:pointer;user-select:none;transition:all 0.15s}
+  .chip .chip-name{padding:8px 12px;color:#6e6e73;font-weight:500}
+  .chip .chip-pct{padding:8px 10px;background:#f5f5f7;color:#6e6e73;font-size:12px;font-weight:600;border-left:1px solid #e5e5ea;cursor:pointer}
+  .chip.selected{background:#e3f2ff;border-color:#007aff}
+  .chip.selected .chip-name{color:#007aff}
+  .chip.selected .chip-pct{background:#007aff;color:#fff;border-left-color:#0051d5}
+  .chip.partial.selected{background:#fff3cd;border-color:#f0a000}
+  .chip.partial.selected .chip-name{color:#7a5a00}
+  .chip.partial.selected .chip-pct{background:#f0a000;color:#fff;border-left-color:#d18800}
+  .chip-help{font-size:11px;color:#86868b;margin-top:4px;line-height:1.4}
+  /* Modal de % */
+  .pct-modal-options{display:grid;grid-template-columns:repeat(4, 1fr);gap:8px;margin:14px 0}
+  .pct-modal-options button{padding:14px 0;font-size:16px;font-weight:600;border:1.5px solid #d2d2d7;background:#fff;border-radius:10px;cursor:pointer;font-family:inherit}
+  .pct-modal-options button.active{background:#007aff;color:#fff;border-color:#007aff}
+  /* Real CTNS/SKUs */
+  .actual-fields-row{display:flex;gap:10px;margin-top:4px}
+  .actual-fields-row > div{flex:1}
+  .actual-fields-row label{display:block;font-size:12px;color:#6e6e73;margin-bottom:5px;font-weight:500}
+  .actual-fields-row input{width:100%;padding:11px 12px;border:1.5px solid #d2d2d7;border-radius:8px;font-size:16px;-webkit-appearance:none;appearance:none}
+  .actual-fields-row input:focus{outline:none;border-color:#007aff}
+  .actual-fields-row input.invalid{border-color:#ff3b30}
+  .actual-fields-help{font-size:11px;color:#86868b;margin-top:6px;line-height:1.4}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>Top Crew Solutions</h1>
+    <div class="date" id="today-label"></div>
+  </div>
+  <button class="btn-ghost" onclick="showAddrModal()" id="addr-btn" style="display:none">Dirección</button>
+</div>
+
+<div id="view-new" class="container">
+  <div class="card">
+    <label class="label">Crew</label>
+    <select id="sel-crew" onchange="onCrewChange()">
+      <option value="">Selecciona crew...</option>
+      <option value="INFRONT">INFRONT</option>
+      <option value="TOP CREW">TOP CREW</option>
+    </select>
+  </div>
+
+  <div class="card" id="card-customer" style="display:none">
+    <label class="label">Cliente</label>
+    <select id="sel-customer" onchange="onCustomerChange()"></select>
+    <div class="addr-row" id="addr-display"></div>
+  </div>
+
+  <div class="card" id="card-size" style="display:none">
+    <label class="label">Tamaño de contenedor</label>
+    <div class="size-toggle">
+      <button id="size-20" onclick="selectSize('20ft')">20'</button>
+      <button id="size-40" onclick="selectSize('40ft')">40'</button>
+    </div>
+  </div>
+
+  <div class="card" id="card-section" style="display:none">
+    <label class="label">Tipo de descarga</label>
+    <div class="section-tabs" id="section-tabs"></div>
+  </div>
+
+  <div class="card" id="card-tier" style="display:none">
+    <label class="label">Tarifa base (selecciona una)</label>
+    <div id="tier-list"></div>
+  </div>
+
+  <div class="card" id="card-actuals" style="display:none">
+    <label class="label">Cantidad real descargada</label>
+    <div class="actual-fields-row">
+      <div>
+        <label for="actual-ctns">CTNS</label>
+        <input type="number" id="actual-ctns" min="0" step="1" inputmode="numeric" placeholder="Ej: 1300" oninput="onActualChange()">
+      </div>
+      <div>
+        <label for="actual-skus">SKUs</label>
+        <input type="number" id="actual-skus" min="0" step="1" inputmode="numeric" placeholder="Ej: 2" oninput="onActualChange()">
+      </div>
+    </div>
+    <div class="actual-fields-help">Cantidad efectiva que se sacó del contenedor (no el rango).</div>
+  </div>
+
+  <div class="card" id="card-extras" style="display:none">
+    <label class="label">Extras (ingresa cantidad)</label>
+    <div id="extras-list"></div>
+  </div>
+
+  <div class="card" id="card-people" style="display:none">
+    <label class="label">Personas trabajando en este contenedor</label>
+    <div id="chip-grid" class="chip-grid"></div>
+    <div id="people-summary"></div>
+    <div class="chip-help">Toca el nombre para incluir/excluir · Toca el % para cambiarlo</div>
+  </div>
+
+  <div class="summary-card" id="summary-card" style="display:none">
+    <div id="summary-breakdown"></div>
+    <div class="total-final">
+      <span>TOTAL</span>
+      <span id="summary-total">$0</span>
+    </div>
+  </div>
+
+  <button class="btn btn-primary" id="btn-save" onclick="saveEntry()" style="display:none;margin-bottom:10px">+ Agregar al día</button>
+  <button class="btn btn-secondary" onclick="resetForm()" style="display:none" id="btn-reset">Limpiar formulario</button>
+</div>
+
+<div id="view-day" class="container hidden">
+  <div class="day-total-card">
+    <div class="label-light">TOTAL DEL DÍA</div>
+    <div class="total" id="day-total">$0</div>
+    <div class="meta-line" id="day-meta">0 contenedores · 0 clientes</div>
+  </div>
+
+  <div id="totals-by-customer-container"></div>
+
+  <div id="day-entries-list"></div>
+
+  <button class="clear-day-btn" id="clear-day-btn" onclick="clearDay()" style="display:none">Limpiar día completo</button>
+</div>
+
+<div id="view-crew" class="container hidden">
+  <div class="card">
+    <label class="label">Crew del día</label>
+    <div class="add-crew-row">
+      <input type="text" id="new-crew-name" placeholder="Nombre de la persona" autocomplete="off" onkeydown="if(event.key==='Enter')addCrewMember()">
+      <button onclick="addCrewMember()">+ Agregar</button>
+    </div>
+    <div id="crew-list"></div>
+  </div>
+  <div class="chip-help" style="text-align:center;padding:8px 16px">El crew se borra cada día a medianoche junto con los contenedores.</div>
+</div>
+
+<div class="tab-bar">
+  <button id="tab-new" class="active" onclick="switchView('new')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    Nuevo
+  </button>
+  <button id="tab-crew" onclick="switchView('crew')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    Crew <span id="tab-crew-count"></span>
+  </button>
+  <button id="tab-day" onclick="switchView('day')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    Día <span id="tab-day-count"></span>
+  </button>
+</div>
+
+<div id="pct-modal" class="modal-overlay hidden" onclick="closePctModal(event)">
+  <div class="modal-content" onclick="event.stopPropagation()" style="max-width:340px;margin:auto;border-radius:14px;align-self:center">
+    <h2 id="pct-modal-title">Porcentaje</h2>
+    <div class="pct-modal-options" id="pct-modal-options"></div>
+    <button class="btn btn-secondary" onclick="closePctModal()">Cerrar</button>
+  </div>
+</div>
+
+<div id="addr-modal" class="modal-overlay hidden" onclick="closeAddrModal(event)">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <h2 id="addr-modal-title">Dirección</h2>
+    <p id="addr-modal-body" style="font-size:14px;line-height:1.6"></p>
+    <button class="btn btn-secondary" onclick="closeAddrModal()">Cerrar</button>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+// ====== DATA EMBEBIDA ======
+const PRICES = {"INFRONT":{"BASILE IMPORTS":{"address":"16 HUGO PLACE MANSFIELD","tiers":{"NOT DRIVING":[{"label":"0 - 1499 CTNS / 5 SKUS","20ft":140,"40ft":220},{"label":"1500 - 1999 CTNS / 5 SKUS OR LESS","20ft":160,"40ft":240},{"label":"2000 - 2499 CTNS / 5+ SKUS","20ft":180,"40ft":260},{"label":"2500 - 2999 CTNS / 10+ SKUS","20ft":200,"40ft":280},{"label":"3000 - 3499 CTNS / 15+ SKUS","20ft":220,"40ft":300},{"label":"3500 - 3999 CTNS / 20+ SKUS","20ft":240,"40ft":320},{"label":"4000 - 4499 CTNS / 25+ SKUS","20ft":260,"40ft":340},{"label":"4500 - 4999 CTNS / 30+ SKUS","20ft":280,"40ft":360},{"label":"5000 - 5499 CTNS / 35+ SKUS","20ft":300,"40ft":380},{"label":"5500 - 5999 / 40+ SKUS","20ft":320,"40ft":400},{"label":"6000 + / 45+ SKUS","20ft":340,"40ft":420}],"DRIVING":[{"label":"0 - 1499 CTNS / 5 SKUS","20ft":160,"40ft":240},{"label":"1500 - 1999 CTNS / 5 SKUS OR LESS","20ft":180,"40ft":260},{"label":"2000 - 2499 CTNS / 5+ SKUS","20ft":200,"40ft":280},{"label":"2500 - 2999 CTNS / 10+ SKUS","20ft":220,"40ft":300},{"label":"3000 - 3499 CTNS / 15+ SKUS","20ft":240,"40ft":320},{"label":"3500 - 3999 CTNS / 20+ SKUS","20ft":260,"40ft":340},{"label":"4000 - 4499 CTNS / 25+ SKUS","20ft":280,"40ft":360},{"label":"4500 - 4999 CTNS / 30+ SKUS","20ft":300,"40ft":380},{"label":"5000 - 5499 CTNS / 35+ SKUS","20ft":320,"40ft":400},{"label":"5500 - 5999 / 40+ SKUS","20ft":340,"40ft":420},{"label":"6000 + / 45+ SKUS","20ft":360,"40ft":440}]},"extras":[{"label":"FORK UNLOAD PALLETIZED","20ft":80,"40ft":120},{"label":"WAITING TIME","20ft":33.1,"40ft":33.1},{"label":"EXTRA WORK","20ft":33.1,"40ft":33.1},{"label":"LABOUR HIRING","20ft":33.1,"40ft":33.1},{"label":"FORKLIFT HIRING","20ft":34.5,"40ft":34.5},{"label":"HIGH REACH DRIVER","20ft":35,"40ft":35},{"label":"HEAVY WEIGHT OVER 30 KG","20ft":50,"40ft":50},{"label":"STICKERS","20ft":0.12,"40ft":0.12},{"label":"20' PALLET JACK","20ft":40,"40ft":40},{"label":"40' PALLET JACK","20ft":40,"40ft":40},{"label":"PALLET RESTACK","20ft":8,"40ft":8}]},"CRL EXPRESS":{"address":"2A/ 9 JUTLAND STREET LOGANLEA","tiers":{"NOT DRIVING":[{"label":"0 - 1499 CTNS / 5 SKUS","20ft":140,"40ft":220},{"label":"1500 - 1999 CTNS / 5 SKUS OR LESS","20ft":160,"40ft":240},{"label":"2000 - 2499 CTNS / 5+ SKUS","20ft":180,"40ft":260},{"label":"2500 - 2999 CTNS / 10+ SKUS","20ft":200,"40ft":280},{"label":"3000 - 3499 CTNS / 15+ SKUS","20ft":220,"40ft":300},{"label":"3500 - 3999 CTNS / 20+ SKUS","20ft":240,"40ft":320},{"label":"4000 - 4499 CTNS / 25+ SKUS","20ft":260,"40ft":340},{"label":"4500 - 4999 CTNS / 30+ SKUS","20ft":280,"40ft":360},{"label":"5000 - 5499 CTNS / 35+ SKUS","20ft":300,"40ft":380},{"label":"5500 - 5999 / 40+ SKUS","20ft":320,"40ft":400},{"label":"6000 + / 45+ SKUS","20ft":340,"40ft":420}],"DRIVING":[{"label":"0 - 1499 CTNS / 5 SKUS","20ft":160,"40ft":240},{"label":"1500 - 1999 CTNS / 5 SKUS OR LESS","20ft":180,"40ft":260},{"label":"2000 - 2499 CTNS / 5+ SKUS","20ft":200,"40ft":280},{"label":"2500 - 2999 CTNS / 10+ SKUS","20ft":220,"40ft":300},{"label":"3000 - 3499 CTNS / 15+ SKUS","20ft":240,"40ft":320},{"label":"3500 - 3999 CTNS / 20+ SKUS","20ft":260,"40ft":340},{"label":"4000 - 4499 CTNS / 25+ SKUS","20ft":280,"40ft":360},{"label":"4500 - 4999 CTNS / 30+ SKUS","20ft":300,"40ft":380},{"label":"5000 - 5499 CTNS / 35+ SKUS","20ft":320,"40ft":400},{"label":"5500 - 5999 / 40+ SKUS","20ft":340,"40ft":420},{"label":"6000 + / 45+ SKUS","20ft":360,"40ft":440}]},"extras":[{"label":"FORK UNLOAD PALLETIZED","20ft":80,"40ft":120},{"label":"WAITING TIME","20ft":33.1,"40ft":33.1},{"label":"EXTRA WORK","20ft":33.1,"40ft":33.1},{"label":"LABOUR HIRING","20ft":33.1,"40ft":33.1},{"label":"FORKLIFT HIRING","20ft":34.5,"40ft":34.5},{"label":"HIGH REACH DRIVER","20ft":35,"40ft":35},{"label":"HEAVY WEIGHT OVER 30 KG","20ft":50,"40ft":50},{"label":"STICKERS","20ft":0.12,"40ft":0.12},{"label":"20' PALLET JACK","20ft":40,"40ft":40},{"label":"40' PALLET JACK","20ft":40,"40ft":40},{"label":"PALLET RESTACK","20ft":8,"40ft":8},{"label":"HEAVY CHAIRS HW INCLUDED","20ft":"-","40ft":260}]},"DRAKES SUPERMARKET":{"address":"Unit C Building G1 - 250 Sherwood Rd, Rocklea QLD 4106","tiers":{"NOT DRIVING":[{"label":"0 - 1499 CTNS / 5 SKUS","20ft":140,"40ft":220},{"label":"1500 - 1999 CTNS / 5 SKUS OR LESS","20ft":160,"40ft":240},{"label":"2000 - 2499 CTNS / 5+ SKUS","20ft":180,"40ft":260},{"label":"2500 - 2999 CTNS / 10+ SKUS","20ft":200,"40ft":280},{"label":"3000 - 3499 CTNS / 15+ SKUS","20ft":220,"40ft":300},{"label":"3500 - 3999 CTNS / 20+ SKUS","20ft":240,"40ft":320},{"label":"4000 - 4499 CTNS / 25+ SKUS","20ft":260,"40ft":340},{"label":"4500 - 4999 CTNS / 30+ SKUS","20ft":280,"40ft":360},{"label":"5000 - 5499 CTNS / 35+ SKUS","20ft":300,"40ft":380},{"label":"5500 - 5999 / 40+ SKUS","20ft":320,"40ft":400},{"label":"6000 + / 45+ SKUS","20ft":340,"40ft":420},{"label":"6500 + / 50+ SKUS","20ft":"TBC","40ft":"TBC"}],"DRIVING":[{"label":"0 - 1499 CTNS / 5 SKUS","20ft":160,"40ft":240},{"label":"1500 - 1999 CTNS / 5 SKUS OR LESS","20ft":180,"40ft":260},{"label":"2000 - 2499 CTNS / 5+ SKUS","20ft":200,"40ft":280},{"label":"2500 - 2999 CTNS / 10+ SKUS","20ft":220,"40ft":300},{"label":"3000 - 3499 CTNS / 15+ SKUS","20ft":240,"40ft":320},{"label":"3500 - 3999 CTNS / 20+ SKUS","20ft":260,"40ft":340},{"label":"4000 - 4499 CTNS / 25+ SKUS","20ft":280,"40ft":360},{"label":"4500 - 4999 CTNS / 30+ SKUS","20ft":300,"40ft":380},{"label":"5000 - 5499 CTNS / 35+ SKUS","20ft":320,"40ft":400},{"label":"5500 - 5999 / 40+ SKUS","20ft":340,"40ft":420},{"label":"6000 + / 45+ SKUS","20ft":360,"40ft":440},{"label":"6500 + / 50+ SKUS","20ft":"TBC","40ft":"TBC"}]},"extras":[{"label":"FORK UNLOAD PALLETIZED","20ft":80,"40ft":120},{"label":"WAITING TIME","20ft":33.1,"40ft":33.1},{"label":"EXTRA WORK","20ft":33.1,"40ft":33.1},{"label":"LABOUR HIRING","20ft":33.1,"40ft":33.1},{"label":"FORKLIFT HIRING","20ft":34.5,"40ft":34.5},{"label":"HEAVY WEIGHT OVER 30 KG","20ft":50,"40ft":50},{"label":"STICKERS","20ft":0.12,"40ft":0.12},{"label":"20' PALLET JACK","20ft":40,"40ft":40},{"label":"40' PALLET JACK","20ft":40,"40ft":40},{"label":"PALLET RESTACK","20ft":8,"40ft":8}]},"EMPEROR 3PL":{"address":"211 FLEMING ROAD, HEMMANT QLD 4174 CONTACTS: EMMA / MICHAEL","tiers":{"NOT DRIVING":[{"label":"0 - 1499 CTNS / 5 SKUS","20ft":140,"40ft":220},{"label":"1500 - 1999 CTNS / 5 SKUS OR LESS","20ft":160,"40ft":240},{"label":"2000 - 2499 CTNS / 5+ SKUS","20ft":180,"40ft":260},{"label":"2500 - 2999 CTNS / 10+ SKUS","20ft":200,"40ft":280},{"label":"3000 - 3499 CTNS / 15+ SKUS","20ft":220,"40ft":300},{"label":"3500 - 3999 CTNS / 20+ SKUS","20ft":240,"40ft":320},{"label":"4000 - 4499 CTNS / 25+ SKUS","20ft":260,"40ft":340},{"label":"4500 - 4999 CTNS / 30+ SKUS","20ft":280,"40ft":360},{"label":"5000 - 5499 CTNS / 35+ SKUS","20ft":300,"40ft":380},{"label":"5500 - 5999 / 40+ SKUS","20ft":320,"40ft":400},{"label":"6000 + / 45+ SKUS","20ft":340,"40ft":420}],"DRIVING":[{"label":"0 - 1499 CTNS / 5 SKUS","20ft":160,"40ft":240},{"label":"1500 - 1999 CTNS / 5 SKUS OR LESS","20ft":180,"40ft":260},{"label":"2000 - 2499 CTNS / 5+ SKUS","20ft":200,"40ft":280},{"label":"2500 - 2999 CTNS / 10+ SKUS","20ft":220,"40ft":300},{"label":"3000 - 3499 CTNS / 15+ SKUS","20ft":240,"40ft":320},{"label":"3500 - 3999 CTNS / 20+ SKUS","20ft":260,"40ft":340},{"label":"4000 - 4499 CTNS / 25+ SKUS","20ft":280,"40ft":360},{"label":"4500 - 4999 CTNS / 30+ SKUS","20ft":300,"40ft":380},{"label":"5000 - 5499 CTNS / 35+ SKUS","20ft":320,"40ft":400},{"label":"5500 - 5999 / 40+ SKUS","20ft":340,"40ft":420},{"label":"6000 + / 45+ SKUS","20ft":360,"40ft":440}]},"extras":[{"label":"FORK UNLOAD PALLETIZED","20ft":80,"40ft":120},{"label":"WAITING TIME","20ft":33.1,"40ft":33.1},{"label":"EXTRA WORK","20ft":33.1,"40ft":33.1},{"label":"LABOUR HIRING","20ft":33.1,"40ft":33.1},{"label":"FORKLIFT HIRING","20ft":34.5,"40ft":34.5},{"label":"HIGH REACH DRIVER","20ft":35,"40ft":35},{"label":"HEAVY WEIGHT OVER 30 KG","20ft":50,"40ft":50},{"label":"STICKERS","20ft":0.12,"40ft":0.12},{"label":"20' PALLET JACK","20ft":40,"40ft":40},{"label":"40' PALLET JACK","20ft":40,"40ft":40},{"label":"PALLET RESTACK","20ft":8,"40ft":8}]},"FCN Storage & Distribution":{"address":"2 Notar Drive, Ormeau Qld 4208 / Contact: Sonja Sutherland","tiers":{"NOT DRIVING":[{"label":"0 - 1499 CTNS / 5 SKUS","20ft":140,"40ft":220},{"label":"1500 - 1999 CTNS / 5 SKUS OR LESS","20ft":160,"40ft":240},{"label":"2000 - 2499 CTNS / 5+ SKUS","20ft":180,"40ft":260},{"label":"2500 - 2999 CTNS / 10+ SKUS","20ft":200,"40ft":280},{"label":"3000 - 3499 CTNS / 15+ SKUS","20ft":220,"40ft":300},{"label":"3500 - 3999 CTNS / 20+ SKUS","20ft":240,"40ft":320},{"label":"4000 - 4499 CTNS / 25+ SKUS","20ft":260,"40ft":340},{"label":"4500 - 4999 CTNS / 30+ SKUS","20ft":280,"40ft":360},{"label":"5000 - 5499 CTNS / 35+ SKUS","20ft":300,"40ft":380},{"label":"5500 - 5999 / 40+ SKUS","20ft":320,"40ft":400},{"label":"6000 + / 45+ SKUS","20ft":340,"40ft":420}],"DRIVING":[{"label":"0 - 1499 CTNS / 5 SKUS","20ft":160,"40ft":240},{"label":"1500 - 1999 CTNS / 5 SKUS OR LESS","20ft":180,"40ft":260},{"label":"2000 - 2499 CTNS / 5+ SKUS","20ft":200,"40ft":280},{"label":"2500 - 2999 CTNS / 10+ SKUS","20ft":220,"40ft":300},{"label":"3000 - 3499 CTNS / 15+ SKUS","20ft":240,"40ft":320},{"label":"3500 - 3999 CTNS / 20+ SKUS","20ft":260,"40ft":340},{"label":"4000 - 4499 CTNS / 25+ SKUS","20ft":280,"40ft":360},{"label":"4500 - 4999 CTNS / 30+ SKUS","20ft":300,"40ft":380},{"label":"5000 - 5499 CTNS / 35+ SKUS","20ft":320,"40ft":400},{"label":"5500 - 5999 / 40+ SKUS","20ft":340,"40ft":420},{"label":"6000 + / 45+ SKUS","20ft":360,"40ft":440}]},"extras":[{"label":"FORK UNLOAD PALLETIZED","20ft":80,"40ft":120},{"label":"WAITING TIME","20ft":33.1,"40ft":33.1},{"label":"EXTRA WORK","20ft":33.1,"40ft":33.1},{"label":"LABOUR HIRING","20ft":33.1,"40ft":33.1},{"label":"FORKLIFT HIRING","20ft":34.5,"40ft":34.5},{"label":"HIGH REACH DRIVER","20ft":35,"40ft":35},{"label":"HEAVY WEIGHT OVER 30 KG","20ft":50,"40ft":50},{"label":"STICKERS","20ft":0.12,"40ft":0.12},{"label":"20' PALLET JACK","20ft":40,"40ft":40},{"label":"40' PALLET JACK","20ft":40,"40ft":40},{"label":"PALLET RESTACK","20ft":8,"40ft":8}]},"GEODIS":{"address":"20 Westringia Rd, Brisbane Airport QLD 4007                         Contact: Carlo Blanch","tiers":{"NOT DRIVING":[{"label":"Starch & Coffee (Under 30kg)","20ft":140,"40ft":"-"},{"label":"Bonsoy (Up to 2800 ctns)","20ft":180,"40ft":"-"}]},"extras":[{"label":"FORK UNLOAD PALLETIZED","20ft":80,"40ft":120},{"label":"WAITING TIME","20ft":33.1,"40ft":33.1},{"label":"EXTRA WORK","20ft":33.1,"40ft":33.1},{"label":"LABOUR HIRING","20ft":33.1,"40ft":33.1},{"label":"FORKLIFT HIRING","20ft":34.5,"40ft":34.5},{"label":"HIGH REACH DRIVER","20ft":35,"40ft":35},{"label":"HEAVY WEIGHT OVER 30 KG","20ft":50,"40ft":50},{"label":"STICKERS","20ft":0.12,"40ft":0.12},{"label":"20' PALLET JACK","20ft":40,"40ft":40},{"label":"40' PALLET JACK","20ft":40,"40ft":40},{"label":"PALLET RESTACK","20ft":8,"40ft":8}]},"GLOBELLO":{"address":"1/92 Donaldson Road Rocklea 4106","tiers":{"NOT DRIVING":[{"label":"0 - 1499 CTNS / 5 SKUS","20ft":120,"40ft":180},{"label":"1500 - 1999 CTNS / 5 SKUS OR LESS","20ft":140,"40ft":200},{"label":"2000 - 2499 CTNS / 5+ SKUS","20ft":160,"40ft":220},{"label":"2500 - 2999 CTNS / 10+ SKUS","20ft":180,"40ft":240},{"label":"3000 - 3499 CTNS / 15+ SKUS","20ft":200,"40ft":260},{"label":"3500 - 3999 CTNS / 20+ SKUS","20ft":220,"40ft":280},{"label":"4000 - 4499 CTNS / 25+ SKUS","20ft":240,"40ft":300},{"label":"4500 - 4999 CTNS / 30+ SKUS","20ft":260,"40ft":330},{"label":"5000 - 5499 CTNS / 35+ SKUS","20ft":280,"40ft":350},{"label":"5500 - 5999 / 40+ SKUS","20ft":300,"40ft":380},{"label":"6000 + / 45+ SKUS","20ft":350,"40ft":400}],"DRIVING":[{"label":"0 - 1499 CTNS / 5 SKUS","20ft":160,"40ft":220},{"label":"1500 - 1999 CTNS / 5 SKUS OR LESS","20ft":180,"40ft":240},{"label":"2000 - 2499 CTNS / 5+ SKUS","20ft":200,"40ft":260},{"label":"2500 - 2999 CTNS / 10+ SKUS","20ft":220,"40ft":280},{"label":"3000 - 3499 CTNS / 15+ SKUS","20ft":240,"40ft":300},{"label":"3500 - 3999 CTNS / 20+ SKUS","20ft":260,"40ft":320},{"label":"4000 - 4499 CTNS / 25+ SKUS","20ft":280,"40ft":340},{"label":"4500 - 4999 CTNS / 30+ SKUS","20ft":300,"40ft":360},{"label":"5000 - 5499 CTNS / 35+ SKUS","20ft":320,"40ft":380},{"label":"5500 - 5999 / 40+ SKUS","20ft":340,"40ft":400},{"label":"6000 + / 45+ SKUS","20ft":360,"40ft":420}]},"extras":[{"label":"strapping","20ft":null,"40ft":1.5},{"label":"WAITING TIME","20ft":33.1,"40ft":33.1},{"label":"EXTRA WORK","20ft":33.1,"40ft":33.1},{"label":"LABOUR HIRING","20ft":33.1,"40ft":33.1},{"label":"FORKLIFT HIRING","20ft":34.5,"40ft":34.5},{"label":"HIGH REACH DRIVER","20ft":35,"40ft":35},{"label":"HEAVY WEIGHT OVER 30 KG","20ft":50,"40ft":50},{"label":"STICKERS","20ft":0.12,"40ft":0.12},{"label":"20' PALLET JACK","20ft":40,"40ft":40},{"label":"40' PALLET JACK","20ft":40,"40ft":40},{"label":"PALLET RESTACK","20ft":8,"40ft":8}]},"HUNTER PACIFIC":{"address":"163 Ingram Road, Acacia Ridge QLD 4110","tiers":{},"extras":[{"label":"WAITING TIME","20ft":33.1,"40ft":33.1},{"label":"EXTRA WORK","20ft":33.1,"40ft":33.1},{"label":"LABOUR HIRING","20ft":33.1,"40ft":33.1},{"label":"FORKLIFT HIRING","20ft":34.5,"40ft":34.5},{"label":"HIGH REACH DRIVER","20ft":35,"40ft":35},{"label":"HEAVY WEIGHT OVER 30 KG","20ft":50,"40ft":50},{"label":"20' PALLET JACK","20ft":40,"40ft":40},{"label":"40' PALLET JACK","20ft":40,"40ft":40},{"label":"PALLET RESTACK","20ft":8,"40ft":8}]},"KG FOODS":{"address":"11 Ironstone Road, Berrinba 4117                      Contact: Mani Dhaliwal","tiers":{"NOT DRIVING":[{"label":"0 - 1499 CTNS / 5 SKUS","20ft":140,"40ft":220},{"label":"1500 - 1999 CTNS / 5 SKUS OR LESS","20ft":160,"40ft":240},{"label":"2000 - 2499 CTNS / 5+ SKUS","20ft":180,"40ft":260},{"label":"2500 - 2999 CTNS / 10+ SKUS","20ft":200,"40ft":280},{"label":"3000 - 3499 CTNS / 15+ SKUS","20ft":220,"40ft":300},{"label":"3500 - 3999 CTNS / 20+ SKUS","20ft":240,"40ft":320},{"label":"4000 - 4499 CTNS / 25+ SKUS","20ft":260,"40ft":340},{"label":"4500 - 4999 CTNS / 30+ SKUS","20ft":280,"40ft":360},{"label":"5000 - 5499 CTNS / 35+ SKUS","20ft":300,"40ft":380},{"label":"5500 - 5999 / 40+ SKUS","20ft":320,"40ft":400},{"label":"6000 + / 45+ SKUS","20ft":340,"40ft":420}],"DRIVING":[{"label":"0 - 1499 CTNS / 5 SKUS","20ft":160,"40ft":240},{"label":"1500 - 1999 CTNS / 5 SKUS OR LESS","20ft":180,"40ft":260},{"label":"2000 - 2499 CTNS / 5+ SKUS","20ft":200,"40ft":280},{"label":"2500 - 2999 CTNS / 10+ SKUS","20ft":220,"40ft":300},{"label":"3000 - 3499 CTNS / 15+ SKUS","20ft":240,"40ft":320},{"label":"3500 - 3999 CTNS / 20+ SKUS","20ft":260,"40ft":340},{"label":"4000 - 4499 CTNS / 25+ SKUS","20ft":280,"40ft":360},{"label":"4500 - 4999 CTNS / 30+ SKUS","20ft":300,"40ft":380},{"label":"5000 - 5499 CTNS / 35+ SKUS","20ft":320,"40ft":400},{"label":"5500 - 5999 / 40+ SKUS","20ft":340,"40ft":420},{"label":"6000 + / 45+ SKUS","20ft":360,"40ft":440}]},"extras":[{"label":"FORK UNLOAD PALLETIZED","20ft":80,"40ft":120},{"label":"FROZEN CONTAINER","20ft":"Add $10 on top of price","40ft":"Add $10 on top of price"},{"label":"WAITING TIME","20ft":33.1,"40ft":33.1},{"label":"EXTRA WORK","20ft":33.1,"40ft":33.1},{"label":"LABOUR HIRING","20ft":33.1,"40ft":33.1},{"label":"FORKLIFT HIRING","20ft":34.5,"40ft":34.5},{"label":"HIGH REACH DRIVER","20ft":35,"40ft":35},{"label":"HEAVY WEIGHT OVER 30 KG","20ft":50,"40ft":50},{"label":"STICKERS","20ft":0.12,"40ft":0.12},{"label":"20' PALLET JACK","20ft":40,"40ft":40},{"label":"40' PALLET JACK","20ft":40,"40ft":40},{"label":"PALLET RESTACK","20ft":8,"40ft":8}]},"MANN & NOBLE":{"address":"12/4 COMPUTER RD, YATALA, QLD 4207","tiers":{"NOT DRIVING":[{"label":"0 - 1499 CTNS / 5 SKUS","20ft":140,"40ft":220},{"label":"1500 - 1999 CTNS / 5 SKUS OR LESS","20ft":160,"40ft":240},{"label":"2000 - 2499 CTNS / 5+ SKUS","20ft":180,"40ft":260},{"label":"2500 - 2999 CTNS / 10+ SKUS","20ft":200,"40ft":280},{"label":"3000 - 3499 CTNS / 15+ SKUS","20ft":220,"40ft":300},{"label":"3500 - 3999 CTNS / 20+ SKUS","20ft":240,"40ft":320},{"label":"4000 - 4499 CTNS / 25+ SKUS","20ft":260,"40ft":340},{"label":"4500 - 4999 CTNS / 30+ SKUS","20ft":280,"40ft":360},{"label":"5000 - 5499 CTNS / 35+ SKUS","20ft":300,"40ft":380},{"label":"5500 - 5999 / 40+ SKUS","20ft":320,"40ft":400},{"label":"6000 + / 45+ SKUS","20ft":340,"40ft":420},{"label":"6500 + / 50+ SKUS","20ft":"TBC","40ft":"TBC"}],"DRIVING":[{"label":"0 - 1499 CTNS / 5 SKUS","20ft":160,"40ft":240},{"label":"1500 - 1999 CTNS / 5 SKUS OR LESS","20ft":180,"40ft":260},{"label":"2000 - 2499 CTNS / 5+ SKUS","20ft":200,"40ft":280},{"label":"2500 - 2999 CTNS / 10+ SKUS","20ft":220,"40ft":300},{"label":"3000 - 3499 CTNS / 15+ SKUS","20ft":240,"40ft":320},{"label":"3500 - 3999 CTNS / 20+ SKUS","20ft":260,"40ft":340},{"label":"4000 - 4499 CTNS / 25+ SKUS","20ft":280,"40ft":360},{"label":"4500 - 4999 CTNS / 30+ SKUS","20ft":300,"40ft":380},{"label":"5000 - 5499 CTNS / 35+ SKUS","20ft":320,"40ft":400},{"label":"5500 - 5999 / 40+ SKUS","20ft":340,"40ft":420},{"label":"6000 + / 45+ SKUS","20ft":360,"40ft":440},{"label":"6500 + / 50+ SKUS","20ft":"TBC","40ft":"TBC"}]},"extras":[{"label":"FORK UNLOAD PALLETIZED","20ft":80,"40ft":120},{"label":"WAITING TIME","20ft":33.1,"40ft":33.1},{"label":"EXTRA WORK","20ft":33.1,"40ft":33.1},{"label":"LABOUR HIRING","20ft":33.1,"40ft":33.1},{"label":"FORKLIFT HIRING","20ft":34.5,"40ft":34.5},{"label":"HEAVY WEIGHT OVER 30 KG","20ft":50,"40ft":50},{"label":"STICKERS","20ft":0.12,"40ft":0.12},{"label":"20' PALLET JACK","20ft":40,"40ft":40},{"label":"40' PALLET JACK","20ft":40,"40ft":40},{"label":"PALLET RESTACK","20ft":8,"40ft":8}]},"MARTIN BROWER":{"address":"41 Boronia Rd, Brisbane Airport, QLD 4008","tiers":{"NOT DRIVING":[{"label":"0 - 1499 CTNS / 5 SKUS","20ft":140,"40ft":220},{"label":"1500 - 1999 CTNS / 5 SKUS OR LESS","20ft":160,"40ft":240},{"label":"2000 - 2499 CTNS / 5+ SKUS","20ft":180,"40ft":260},{"label":"2500 - 2999 CTNS / 10+ SKUS","20ft":200,"40ft":280},{"label":"3000 - 3499 CTNS / 15+ SKUS","20ft":220,"40ft":300},{"label":"3500 - 3999 CTNS / 20+ SKUS","20ft":240,"40ft":320},{"label":"4000 - 4499 CTNS / 25+ SKUS","20ft":260,"40ft":340},{"label":"4500 - 4999 CTNS / 30+ SKUS","20ft":280,"40ft":360},{"label":"5000 - 5499 CTNS / 35+ SKUS","20ft":300,"40ft":380},{"label":"5500 - 5999 / 40+ SKUS","20ft":320,"40ft":400},{"label":"6000 + / 45+ SKUS","20ft":340,"40ft":420}],"DRIVING":[{"label":"0 - 1499 CTNS / 5 SKUS","20ft":160,"40ft":240},{"label":"1500 - 1999 CTNS / 5 SKUS OR LESS","20ft":180,"40ft":260},{"label":"2000 - 2499 CTNS / 5+ SKUS","20ft":200,"40ft":280},{"label":"2500 - 2999 CTNS / 10+ SKUS","20ft":220,"40ft":300},{"label":"3000 - 3499 CTNS / 15+ SKUS","20ft":240,"40ft":320},{"label":"3500 - 3999 CTNS / 20+ SKUS","20ft":260,"40ft":340},{"label":"4000 - 4499 CTNS / 25+ SKUS","20ft":280,"40ft":360},{"label":"4500 - 4999 CTNS / 30+ SKUS","20ft":300,"40ft":380},{"label":"5000 - 5499 CTNS / 35+ SKUS","20ft":320,"40ft":400},{"label":"5500 - 5999 / 40+ SKUS","20ft":340,"40ft":420},{"label":"6000 + / 45+ SKUS","20ft":360,"40ft":440}]},"extras":[{"label":"FORK UNLOAD PALLETIZED","20ft":80,"40ft":120},{"label":"WAITING TIME","20ft":33.1,"40ft":33.1},{"label":"EXTRA WORK","20ft":33.1,"40ft":33.1},{"label":"LABOUR HIRING","20ft":33.1,"40ft":33.1},{"label":"FORKLIFT HIRING","20ft":34.5,"40ft":34.5},{"label":"HIGH REACH DRIVER","20ft":35,"40ft":35},{"label":"HEAVY WEIGHT OVER 30 KG","20ft":50,"40ft":50},{"label":"STICKERS","20ft":0.12,"40ft":0.12},{"label":"20' PALLET JACK","20ft":40,"40ft":40},{"label":"40' PALLET JACK","20ft":40,"40ft":40},{"label":"PALLET RESTACK","20ft":8,"40ft":8}]},"MAINFREIGHT":{"address":"50-70 Radius Drive, Larapinta 4110\nContacts on site: Simon Wishart / Tim Craig","tiers":{"NOT DRIVING":[{"label":"1-1499 CTNS / 1-5 SKU","20ft":140,"40ft":200},{"label":"1500-1999 CTNS / 1-5 SKU","20ft":160,"40ft":220},{"label":"2000-2499 CTNS / 6-9 SKU","20ft":180,"40ft":240},{"label":"2500-2999 CTNS / 10-14 SKU","20ft":200,"40ft":260},{"label":"3000-3499 CTNS / 15-19 SKU","20ft":220,"40ft":280},{"label":"3500-3999 CTNS / 20-24 SKU","20ft":240,"40ft":300},{"label":"4000-4499 CTNS / 25-29 SKU","20ft":260,"40ft":320},{"label":"4500-4999 CTNS / 30-34 SKU","20ft":280,"40ft":340},{"label":"5000-5499 CTNS / 35-39 SKU","20ft":300,"40ft":360},{"label":"5500-5999 CTNS / 40-44 SKU","20ft":320,"40ft":380},{"label":"6000-6499 CTNS / 45-49 SKU","20ft":340,"40ft":380},{"label":"+6500 CTNS / +50SKU","20ft":360,"40ft":400}],"DRIVING":[{"label":"1-1499 CTNS / 1-5 SKU","20ft":160,"40ft":220},{"label":"1500-1999 CTNS / 1-5 SKU","20ft":180,"40ft":240},{"label":"2000-2499 CTNS / 6-9 SKU","20ft":200,"40ft":260},{"label":"2500-2999 CTNS / 10-14 SKU","20ft":220,"40ft":280},{"label":"3000-3499 CTNS / 15-19 SKU","20ft":240,"40ft":300},{"label":"3500-3999 CTNS / 20-24 SKU","20ft":260,"40ft":320},{"label":"4000-4499 CTNS / 25-29 SKU","20ft":280,"40ft":340},{"label":"4500-4999 CTNS / 30-34 SKU","20ft":300,"40ft":360},{"label":"5000-5499 CTNS / 35-39 SKU","20ft":320,"40ft":380},{"label":"5500-5999 CTNS / 40-44 SKU","20ft":340,"40ft":400},{"label":"6000-6499 CTNS / 45-49 SKU","20ft":360,"40ft":440},{"label":"+6500 CTNS / +50SKU","20ft":390,"40ft":470}]},"extras":[{"label":"FORK UNLOAD PALLETIZED","20ft":80,"40ft":120},{"label":"WAITING TIME","20ft":33.1,"40ft":33.1},{"label":"EXTRA WORK","20ft":33.1,"40ft":33.1},{"label":"LABOUR HIRING","20ft":33.1,"40ft":33.1},{"label":"FORKLIFT HIRING","20ft":34.5,"40ft":34.5},{"label":"HIGH REACH DRIVER","20ft":35,"40ft":35},{"label":"HEAVY WEIGHT OVER 30 KG","20ft":50,"40ft":50},{"label":"STICKERS","20ft":0.12,"40ft":0.12},{"label":"20' PALLET JACK","20ft":40,"40ft":40},{"label":"40' PALLET JACK","20ft":40,"40ft":40},{"label":"PALLET RESTACK","20ft":8,"40ft":8}]},"PAK PLAST":{"address":"3/3507 Pacific Highway, Slacks Creek         Contact:Jake","tiers":{"NOT DRIVING":[{"label":"0 - 1499 CTNS / 5 SKUS","20ft":140,"40ft":220},{"label":"1500 - 1999 CTNS / 5 SKUS OR LESS","20ft":160,"40ft":240},{"label":"2000 - 2499 CTNS / 5+ SKUS","20ft":180,"40ft":260},{"label":"2500 - 2999 CTNS / 10+ SKUS","20ft":200,"40ft":280},{"label":"3000 - 3499 CTNS / 15+ SKUS","20ft":220,"40ft":300},{"label":"3500 - 3999 CTNS / 20+ SKUS","20ft":240,"40ft":320},{"label":"4000 - 4499 CTNS / 25+ SKUS","20ft":260,"40ft":340},{"label":"4500 - 4999 CTNS / 30+ SKUS","20ft":280,"40ft":360},{"label":"5000 - 5499 CTNS / 35+ SKUS","20ft":300,"40ft":380},{"label":"5500 - 5999 / 40+ SKUS","20ft":320,"40ft":400},{"label":"6000 + / 45+ SKUS","20ft":340,"40ft":420},{"label":"6500 + / 50+ SKUS","20ft":"TBC","40ft":"TBC"}],"DRIVING":[{"label":"0 - 1499 CTNS / 5 SKUS","20ft":160,"40ft":240},{"label":"1500 - 1999 CTNS / 5 SKUS OR LESS","20ft":180,"40ft":260},{"label":"2000 - 2499 CTNS / 5+ SKUS","20ft":200,"40ft":280},{"label":"2500 - 2999 CTNS / 10+ SKUS","20ft":220,"40ft":300},{"label":"3000 - 3499 CTNS / 15+ SKUS","20ft":240,"40ft":320},{"label":"3500 - 3999 CTNS / 20+ SKUS","20ft":260,"40ft":340},{"label":"4000 - 4499 CTNS / 25+ SKUS","20ft":280,"40ft":360},{"label":"4500 - 4999 CTNS / 30+ SKUS","20ft":300,"40ft":380},{"label":"5000 - 5499 CTNS / 35+ SKUS","20ft":320,"40ft":400},{"label":"5500 - 5999 / 40+ SKUS","20ft":340,"40ft":420},{"label":"6000 + / 45+ SKUS","20ft":360,"40ft":440},{"label":"6500 + / 50+ SKUS","20ft":"TBC","40ft":"TBC"}]},"extras":[{"label":"FORK UNLOAD PALLETIZED","20ft":80,"40ft":120},{"label":"WAITING TIME","20ft":33.1,"40ft":33.1},{"label":"EXTRA WORK","20ft":33.1,"40ft":33.1},{"label":"LABOUR HIRING","20ft":33.1,"40ft":33.1},{"label":"FORKLIFT HIRING","20ft":34.5,"40ft":34.5},{"label":"HIGH REACH DRIVER","20ft":35,"40ft":35},{"label":"HEAVY WEIGHT OVER 30 KG","20ft":50,"40ft":50},{"label":"STICKERS","20ft":0.12,"40ft":0.12},{"label":"20' PALLET JACK","20ft":40,"40ft":40},{"label":"40' PALLET JACK","20ft":40,"40ft":40},{"label":"PALLET RESTACK","20ft":8,"40ft":8}]},"PB PACKING":{"address":"UNIT 15\n129 ROBINSON ROAD EAST\nGEEBUNG   QLD  4034","tiers":{"NOT DRIVING":[{"label":"0 - 1499 CTNS / 5 SKUS","20ft":120,"40ft":200},{"label":"1500 - 1999 CTNS / 5 SKUS OR LESS","20ft":140,"40ft":220},{"label":"2000 - 2499 CTNS / 5+ SKUS","20ft":160,"40ft":240},{"label":"2500 - 2999 CTNS / 10+ SKUS","20ft":180,"40ft":260},{"label":"3000 - 3499 CTNS / 15+ SKUS","20ft":200,"40ft":280},{"label":"3500 - 3999 CTNS / 20+ SKUS","20ft":220,"40ft":300},{"label":"4000 - 4499 CTNS / 25+ SKUS","20ft":240,"40ft":320},{"label":"4500 - 4999 CTNS / 30+ SKUS","20ft":260,"40ft":340},{"label":"5000 - 5499 CTNS / 35+ SKUS","20ft":280,"40ft":360},{"label":"5500 - 5999 / 40+ SKUS","20ft":300,"40ft":380},{"label":"6000 + / 45+ SKUS","20ft":340,"40ft":400}],"DRIVING":[{"label":"0 - 1499 CTNS / 5 SKUS","20ft":140,"40ft":220},{"label":"1500 - 1999 CTNS / 5 SKUS OR LESS","20ft":160,"40ft":240},{"label":"2000 - 2499 CTNS / 5+ SKUS","20ft":180,"40ft":260},{"label":"2500 - 2999 CTNS / 10+ SKUS","20ft":200,"40ft":280},{"label":"3000 - 3499 CTNS / 15+ SKUS","20ft":220,"40ft":300},{"label":"3500 - 3999 CTNS / 20+ SKUS","20ft":240,"40ft":320},{"label":"4000 - 4499 CTNS / 25+ SKUS","20ft":260,"40ft":340},{"label":"4500 - 4999 CTNS / 30+ SKUS","20ft":280,"40ft":360},{"label":"5000 - 5499 CTNS / 35+ SKUS","20ft":300,"40ft":380},{"label":"5500 - 5999 / 40+ SKUS","20ft":320,"40ft":400},{"label":"6000 + / 45+ SKUS","20ft":340,"40ft":420}]},"extras":[{"label":"FORK UNLOAD PALLETIZED","20ft":80,"40ft":120},{"label":"WAITING TIME","20ft":33.1,"40ft":33.1},{"label":"EXTRA WORK","20ft":33.1,"40ft":33.1},{"label":"LABOUR HIRING","20ft":33.1,"40ft":33.1},{"label":"FORKLIFT HIRING","20ft":34.5,"40ft":34.5},{"label":"HIGH REACH DRIVER","20ft":35,"40ft":35},{"label":"HEAVY WEIGHT OVER 30 KG","20ft":50,"40ft":50},{"label":"20' PALLET JACK","20ft":40,"40ft":40},{"label":"40' PALLET JACK","20ft":40,"40ft":40},{"label":"PALLET RESTACK","20ft":8,"40ft":8}]},"RC DIRECT IMPORTS":{"address":"UNIT 2/29 McCotter Street Acacia Ridge 4110 Queensland","tiers":{"CONTAINER CREW":[{"label":"FLAT RATE","20ft":200,"40ft":280}]},"extras":[{"label":"FORK UNLOAD PALLETIZED","20ft":80,"40ft":120},{"label":"WAITING TIME","20ft":33.1,"40ft":33.1},{"label":"EXTRA WORK","20ft":33.1,"40ft":33.1},{"label":"LABOUR HIRING","20ft":33.1,"40ft":33.1},{"label":"FORKLIFT HIRING","20ft":34.5,"40ft":34.5},{"label":"HIGH REACH DRIVER","20ft":35,"40ft":35},{"label":"HEAVY WEIGHT OVER 30 KG","20ft":50,"40ft":50},{"label":"20' PALLET JACK","20ft":40,"40ft":40},{"label":"40' PALLET JACK","20ft":40,"40ft":40},{"label":"PALLET RESTACK","20ft":8,"40ft":8}]},"REDLANDS COAST LOGISTICS PTY LTD":{"address":"98 Jardine Drive\nRedland Bay QLD 4165 - Contact David Clarke","tiers":{"NOT DRIVING":[{"label":"<5 Sku/batch or 0 \u2013 1499 products","20ft":120,"40ft":200},{"label":"<5 sku /batch or 1500 \u2013 1999 products","20ft":140,"40ft":220},{"label":"5 + sku/batch or 2000 \u2013 2499 products","20ft":160,"40ft":240},{"label":"10 + sku/batch or 2500 \u2013 2999 products","20ft":180,"40ft":260},{"label":"15 + sku/batch or 3000 \u2013 3499 products","20ft":200,"40ft":280},{"label":"20 + sku batch or 3500 \u2013 3999 products","20ft":220,"40ft":300},{"label":"25 + sku/batch or 4000 \u2013 4499 products","20ft":240,"40ft":320},{"label":"30 + sku/batch or 4500 \u2013 4999 products","20ft":260,"40ft":340},{"label":"35 + sku/batch or 5000 \u2013 5499 products","20ft":280,"40ft":360},{"label":"40 + sku/Batch or 5500 \u2013 5999 products","20ft":300,"40ft":380},{"label":"45 + sku / batch or 6000 + products","20ft":340,"40ft":400},{"label":"50 + sku / batch or 6500 + products","20ft":"TBC","40ft":"TBC"}],"DRIVING":[{"label":"<5 Sku/batch or 0 \u2013 1499 products","20ft":140,"40ft":220},{"label":"<5 sku /batch or 1500 \u2013 1999 products","20ft":160,"40ft":240},{"label":"5 + sku/batch or 2000 \u2013 2499 products","20ft":180,"40ft":260},{"label":"10 + sku/batch or 2500 \u2013 2999 products","20ft":200,"40ft":280},{"label":"15 + sku/batch or 3000 \u2013 3499 products","20ft":220,"40ft":300},{"label":"20 + sku batch or 3500 \u2013 3999 products","20ft":240,"40ft":320},{"label":"25 + sku/batch or 4000 \u2013 4499 products","20ft":260,"40ft":340},{"label":"30 + sku/batch or 4500 \u2013 4999 products","20ft":280,"40ft":360},{"label":"35 + sku/batch or 5000 \u2013 5499 products","20ft":300,"40ft":380},{"label":"40 + sku/Batch or 5500 \u2013 5999 products","20ft":320,"40ft":400},{"label":"45 + sku / batch or 6000 + products","20ft":340,"40ft":420},{"label":"50 + sku / batch or 6500 + products","20ft":"TBC","40ft":"TBC"}]},"extras":[{"label":"FORK UNLOAD PALLETIZED","20ft":80,"40ft":120},{"label":"WAITING TIME","20ft":33.1,"40ft":33.1},{"label":"EXTRA WORK","20ft":33.1,"40ft":33.1},{"label":"LABOUR HIRING","20ft":33.1,"40ft":33.1},{"label":"FORKLIFT HIRING","20ft":34.5,"40ft":34.5},{"label":"HEAVY WEIGHT OVER 30 KG","20ft":50,"40ft":50},{"label":"STICKERS","20ft":0.12,"40ft":0.12},{"label":"20' PALLET JACK","20ft":40,"40ft":40},{"label":"40' PALLET JACK","20ft":40,"40ft":40},{"label":"PALLET RESTACK","20ft":8,"40ft":8}]},"ROGER'S COLD STORES":{"address":"Unit 2 / 43 Rudd Street, Oxley 4075","tiers":{"NOT DRIVING":[{"label":"0 - 1499 CTNS / 5 SKUS","20ft":140,"40ft":200},{"label":"1500 - 1999 CTNS / 5 SKUS OR LESS","20ft":160,"40ft":220},{"label":"2000 - 2499 CTNS / 5+ SKUS","20ft":180,"40ft":240},{"label":"2500 - 2999 CTNS / 10+ SKUS","20ft":200,"40ft":260},{"label":"3000 - 3499 CTNS / 15+ SKUS","20ft":220,"40ft":280},{"label":"3500 - 3999 CTNS / 20+ SKUS","20ft":240,"40ft":300},{"label":"4000 - 4499 CTNS / 25+ SKUS","20ft":260,"40ft":320},{"label":"4500 - 4999 CTNS / 30+ SKUS","20ft":280,"40ft":340},{"label":"5000 - 5499 CTNS / 35+ SKUS","20ft":300,"40ft":360},{"label":"5500 - 5999 / 40+ SKUS","20ft":320,"40ft":380},{"label":"6000 + / 45+ SKUS","20ft":340,"40ft":380},{"label":"6500 + / 50+ SKUS","20ft":"?","40ft":"?"}],"DRIVING":[{"label":"0 - 1499 CTNS / 5 SKUS","20ft":160,"40ft":220},{"label":"1500 - 1999 CTNS / 5 SKUS OR LESS","20ft":180,"40ft":240},{"label":"2000 - 2499 CTNS / 5+ SKUS","20ft":200,"40ft":260},{"label":"2500 - 2999 CTNS / 10+ SKUS","20ft":220,"40ft":280},{"label":"3000 - 3499 CTNS / 15+ SKUS","20ft":240,"40ft":300},{"label":"3500 - 3999 CTNS / 20+ SKUS","20ft":260,"40ft":320},{"label":"4000 - 4499 CTNS / 25+ SKUS","20ft":280,"40ft":340},{"label":"4500 - 4999 CTNS / 30+ SKUS","20ft":300,"40ft":360},{"label":"5000 - 5499 CTNS / 35+ SKUS","20ft":320,"40ft":380},{"label":"5500 - 5999 / 40+ SKUS","20ft":340,"40ft":400},{"label":"6000 + / 45+ SKUS","20ft":340,"40ft":400},{"label":"6500 + / 50+ SKUS","20ft":"?","40ft":500}]},"extras":[{"label":"FORK UNLOAD PALLETIZED","20ft":80,"40ft":120},{"label":"WAITING TIME","20ft":33.1,"40ft":33.1},{"label":"EXTRA WORK","20ft":33.1,"40ft":33.1},{"label":"LABOUR HIRING","20ft":33.1,"40ft":33.1},{"label":"FORKLIFT HIRING","20ft":34.5,"40ft":34.5},{"label":"HIGH REACH DRIVER","20ft":35,"40ft":35},{"label":"HEAVY WEIGHT OVER 30 KG","20ft":50,"40ft":50},{"label":"STICKERS","20ft":0.12,"40ft":0.12},{"label":"20' PALLET JACK","20ft":40,"40ft":40},{"label":"40' PALLET JACK","20ft":40,"40ft":40},{"label":"PALLET RESTACK","20ft":8,"40ft":8}]},"TRUMPS":{"address":"333 Bradman St, Acacia Ridge. /  11 Permarig Place Rocklea / 23 Permarig Place Rocklea","tiers":{"NOT DRIVING":[{"label":"0 - 1499 CTNS / 5 SKUS","20ft":140,"40ft":200},{"label":"1500 - 1999 CTNS / 5 SKUS OR LESS","20ft":160,"40ft":220},{"label":"2000 - 2499 CTNS / 5+ SKUS","20ft":180,"40ft":240},{"label":"2500 - 2999 CTNS / 10+ SKUS","20ft":200,"40ft":260},{"label":"3000 - 3499 CTNS / 15+ SKUS","20ft":220,"40ft":280},{"label":"3500 - 3999 CTNS / 20+ SKUS","20ft":240,"40ft":300},{"label":"4000 - 4499 CTNS / 25+ SKUS","20ft":260,"40ft":320},{"label":"4500 - 4999 CTNS / 30+ SKUS","20ft":280,"40ft":340},{"label":"5000 - 5499 CTNS / 35+ SKUS","20ft":300,"40ft":360},{"label":"5500 - 5999 / 40+ SKUS","20ft":320,"40ft":380},{"label":"6000 + / 45+ SKUS","20ft":340,"40ft":380}],"DRIVING":[{"label":"0 - 1499 CTNS / 5 SKUS","20ft":160,"40ft":220},{"label":"1500 - 1999 CTNS / 5 SKUS OR LESS","20ft":180,"40ft":240},{"label":"2000 - 2499 CTNS / 5+ SKUS","20ft":200,"40ft":260},{"label":"2500 - 2999 CTNS / 10+ SKUS","20ft":220,"40ft":280},{"label":"3000 - 3499 CTNS / 15+ SKUS","20ft":240,"40ft":300},{"label":"3500 - 3999 CTNS / 20+ SKUS","20ft":260,"40ft":320},{"label":"4000 - 4499 CTNS / 25+ SKUS","20ft":280,"40ft":340},{"label":"4500 - 4999 CTNS / 30+ SKUS","20ft":300,"40ft":360},{"label":"5000 - 5499 CTNS / 35+ SKUS","20ft":320,"40ft":380},{"label":"5500 - 5999 / 40+ SKUS","20ft":340,"40ft":400},{"label":"6000 + / 45+ SKUS","20ft":340,"40ft":400}]},"extras":[{"label":"FORK UNLOAD PALLETIZED","20ft":80,"40ft":120},{"label":"WAITING TIME","20ft":33.1,"40ft":33.1},{"label":"EXTRA WORK","20ft":33.1,"40ft":33.1},{"label":"LABOUR HIRING","20ft":33.1,"40ft":33.1},{"label":"FORKLIFT HIRING","20ft":34.5,"40ft":34.5},{"label":"HIGH REACH DRIVER","20ft":35,"40ft":35},{"label":"HEAVY WEIGHT OVER 30 KG","20ft":50,"40ft":50},{"label":"20' PALLET JACK","20ft":40,"40ft":40},{"label":"40' PALLET JACK","20ft":40,"40ft":40},{"label":"PALLET RESTACK","20ft":8,"40ft":8}]},"UME":{"address":"UNIT 81\n57 BALHAM ROAD CORY WITTLETON","tiers":{"NOT DRIVING":[{"label":"0 - 1499 CTNS / 5 SKUS","20ft":120,"40ft":200},{"label":"1500 - 1999 CTNS / 5 SKUS OR LESS","20ft":140,"40ft":220},{"label":"2000 - 2499 CTNS / 5+ SKUS","20ft":160,"40ft":240},{"label":"2500 - 2999 CTNS / 10+ SKUS","20ft":180,"40ft":260},{"label":"3000 - 3499 CTNS / 15+ SKUS","20ft":200,"40ft":280},{"label":"3500 - 3999 CTNS / 20+ SKUS","20ft":220,"40ft":300},{"label":"4000 - 4499 CTNS / 25+ SKUS","20ft":240,"40ft":320},{"label":"4500 - 4999 CTNS / 30+ SKUS","20ft":260,"40ft":340},{"label":"5000 - 5499 CTNS / 35+ SKUS","20ft":280,"40ft":360},{"label":"5500 - 5999 / 40+ SKUS","20ft":300,"40ft":380},{"label":"6000 + / 45+ SKUS","20ft":340,"40ft":380},{"label":"6500 + / 50+ SKUS","20ft":"TBC","40ft":"TBC"}],"DRIVING":[{"label":"0 - 1499 CTNS / 5 SKUS","20ft":140,"40ft":220},{"label":"1500 - 1999 CTNS / 5 SKUS OR LESS","20ft":160,"40ft":240},{"label":"2000 - 2499 CTNS / 5+ SKUS","20ft":180,"40ft":260},{"label":"2500 - 2999 CTNS / 10+ SKUS","20ft":200,"40ft":280},{"label":"3000 - 3499 CTNS / 15+ SKUS","20ft":220,"40ft":300},{"label":"3500 - 3999 CTNS / 20+ SKUS","20ft":240,"40ft":320},{"label":"4000 - 4499 CTNS / 25+ SKUS","20ft":260,"40ft":340},{"label":"4500 - 4999 CTNS / 30+ SKUS","20ft":280,"40ft":360},{"label":"5000 - 5499 CTNS / 35+ SKUS","20ft":300,"40ft":380},{"label":"5500 - 5999 / 40+ SKUS","20ft":320,"40ft":400},{"label":"6000 + / 45+ SKUS","20ft":320,"40ft":400},{"label":"6500 + / 50+ SKUS","20ft":"TBC","40ft":"TBC"}]},"extras":[{"label":"FORK UNLOAD PALLETIZED","20ft":80,"40ft":120},{"label":"WAITING TIME","20ft":33.1,"40ft":33.1},{"label":"EXTRA WORK","20ft":33.1,"40ft":33.1},{"label":"LABOUR HIRING","20ft":33.1,"40ft":33.1},{"label":"FORKLIFT HIRING","20ft":34.5,"40ft":34.5},{"label":"HIGH REACH DRIVER","20ft":35,"40ft":35},{"label":"HEAVY WEIGHT OVER 30 KG","20ft":50,"40ft":50},{"label":"20' PALLET JACK","20ft":40,"40ft":40},{"label":"40' PALLET JACK","20ft":40,"40ft":40},{"label":"PALLET RESTACK","20ft":8,"40ft":8},{"label":"BULL BARS","20ft":220,"40ft":350}]},"VENT AIR":{"address":"Back shed \n4/182 Beatty Road\nArcherfield QLD 4108\nAustralia","tiers":{"NOT DRIVING":[{"label":"0 - 1499 CTNS / 5 SKUS","20ft":140,"40ft":220},{"label":"1500 - 1999 CTNS / 5 SKUS OR LESS","20ft":160,"40ft":240},{"label":"2000 - 2499 CTNS / 5+ SKUS","20ft":180,"40ft":260},{"label":"2500 - 2999 CTNS / 10+ SKUS","20ft":200,"40ft":280},{"label":"3000 - 3499 CTNS / 15+ SKUS","20ft":220,"40ft":300},{"label":"3500 - 3999 CTNS / 20+ SKUS","20ft":240,"40ft":320},{"label":"4000 - 4499 CTNS / 25+ SKUS","20ft":260,"40ft":340},{"label":"4500 - 4999 CTNS / 30+ SKUS","20ft":280,"40ft":360},{"label":"5000 - 5499 CTNS / 35+ SKUS","20ft":300,"40ft":380},{"label":"5500 - 5999 / 40+ SKUS","20ft":320,"40ft":400},{"label":"6000 + / 45+ SKUS","20ft":340,"40ft":420}],"DRIVING":[{"label":"0 - 1499 CTNS / 5 SKUS","20ft":160,"40ft":240},{"label":"1500 - 1999 CTNS / 5 SKUS OR LESS","20ft":180,"40ft":260},{"label":"2000 - 2499 CTNS / 5+ SKUS","20ft":200,"40ft":280},{"label":"2500 - 2999 CTNS / 10+ SKUS","20ft":220,"40ft":300},{"label":"3000 - 3499 CTNS / 15+ SKUS","20ft":240,"40ft":320},{"label":"3500 - 3999 CTNS / 20+ SKUS","20ft":260,"40ft":340},{"label":"4000 - 4499 CTNS / 25+ SKUS","20ft":280,"40ft":360},{"label":"4500 - 4999 CTNS / 30+ SKUS","20ft":300,"40ft":380},{"label":"5000 - 5499 CTNS / 35+ SKUS","20ft":320,"40ft":400},{"label":"5500 - 5999 / 40+ SKUS","20ft":340,"40ft":420},{"label":"6000 + / 45+ SKUS","20ft":360,"40ft":440}]},"extras":[{"label":"FORK UNLOAD PALLETIZED","20ft":80,"40ft":120},{"label":"FROZEN CONTAINER","20ft":"Add $10 on top of price","40ft":"Add $10 on top of price"},{"label":"WAITING TIME","20ft":33.1,"40ft":33.1},{"label":"EXTRA WORK","20ft":33.1,"40ft":33.1},{"label":"LABOUR HIRING","20ft":33.1,"40ft":33.1},{"label":"FORKLIFT HIRING","20ft":34.5,"40ft":34.5},{"label":"HIGH REACH DRIVER","20ft":35,"40ft":35},{"label":"HEAVY WEIGHT OVER 30 KG","20ft":50,"40ft":50},{"label":"STICKERS","20ft":0.12,"40ft":0.12},{"label":"20' PALLET JACK","20ft":40,"40ft":40},{"label":"40' PALLET JACK","20ft":40,"40ft":40},{"label":"PALLET RESTACK","20ft":8,"40ft":8}]}},"TOP CREW":{"DAIWA FOOD":{"address":"54 Parramatta Road, Underwood QLD 4119                                                                                                                                                                                                                                                                                24 Activity Crescent, Molendinar QLD 4214 (Gold Coast)","tiers":{"DRIVING":[{"label":"1-1499 CTNS / 1-9 SKU","20ft":160,"40ft":250},{"label":"1500-2499 CTNS / 10-19 SKU","20ft":180,"40ft":270},{"label":"2500-3499 CTNS / 20-29 SKU","20ft":200,"40ft":290},{"label":"3500-4499 CTNS / 30-39 SKU","20ft":220,"40ft":310},{"label":"4500-5999 CTNS / 40-49 SKU","20ft":240,"40ft":330},{"label":"6000-6999 CTNS / 50-59 SKU","20ft":260,"40ft":350},{"label":"7000-7999 CTNS / 60-69 SKU","20ft":280,"40ft":370},{"label":"+8000 CTNS / +70SKU","20ft":300,"40ft":390}]},"extras":[{"label":"Container cancelled","20ft":100,"40ft":100},{"label":"Container mixed/collapsed","20ft":"?","40ft":"?"},{"label":"Heavyweight (Over 30kg)","20ft":50,"40ft":50},{"label":"Pallet jack fee","20ft":40,"40ft":60},{"label":"Pallet restack","20ft":8,"40ft":8},{"label":"Waiting time","20ft":33.1,"40ft":33.1},{"label":"Extra work","20ft":33.1,"40ft":33.1},{"label":"Labour hire","20ft":33.1,"40ft":33.1},{"label":"Forklift driver","20ft":34.5,"40ft":34.5}]},"DIXIE CUMMINGS":{"address":"1/153 St Vincents Rd, Virginia QLD 4014 /                72 Donaldson Road, Rocklea QLD","tiers":{"DRIVING":[{"label":"0 to 1000 ctns / HARD GOOD'S","20ft":180,"40ft":260},{"label":"1001 to 2000 ctns / HARD GOOD'S","20ft":200,"40ft":280},{"label":"2001 to 3000 ctns / HARD GOOD'S","20ft":220,"40ft":300},{"label":"3001 + ctns / HARD GOOD'S","20ft":240,"40ft":320},{"label":"FLAT RATE / SOFT GOOD'S","20ft":80,"40ft":180}]},"extras":[{"label":"WAITING TIME","20ft":33.1,"40ft":33.1},{"label":"EXTRA WORK","20ft":33.1,"40ft":33.1},{"label":"LABOUR HIRIRING","20ft":33.1,"40ft":33.1},{"label":"FORKLIFT DRIVER","20ft":34.5,"40ft":34.5},{"label":"HIGH REACH DRIVER","20ft":35,"40ft":35},{"label":"CANCELLATION FEE","20ft":100,"40ft":100},{"label":"PALLET JACK FEE (NO WRAP / NO FORK)","20ft":30,"40ft":40},{"label":"PALLET RESTACK","20ft":10,"40ft":10}]},"ELEVAR":{"address":"12 Armada Place\nBanyo, QLD 4014","tiers":{"DRIVING":[{"label":"1-1499 CTNS / 1-9 SKU","20ft":160,"40ft":250},{"label":"1500-2499 CTNS / 10-19 SKU","20ft":180,"40ft":270},{"label":"2500-3499 CTNS / 20-29 SKU","20ft":200,"40ft":290},{"label":"3500-4499 CTNS / 30-39 SKU","20ft":220,"40ft":310},{"label":"4500-5999 CTNS / 40-49 SKU","20ft":240,"40ft":330}],"NOT DRIVING":[{"label":"1-1499 CTNS / 1-9 SKU","20ft":140,"40ft":220},{"label":"1500-2499 CTNS / 10-19 SKU","20ft":170,"40ft":250},{"label":"2500-3499 CTNS / 20-29 SKU","20ft":200,"40ft":280},{"label":"3500-4499 CTNS / 30-39 SKU","20ft":230,"40ft":310},{"label":"5000-5999 CTNS / 40-49 SKU","20ft":260,"40ft":340}]},"extras":[{"label":"WAITING TIME","20ft":33.1,"40ft":33.1},{"label":"EXTRA WORK","20ft":33.1,"40ft":33.1},{"label":"LABOUR HIRIRING","20ft":33.1,"40ft":33.1},{"label":"FORKLIFT DRIVER","20ft":34.5,"40ft":34.5},{"label":"HEAVY WEIGHT","20ft":50,"40ft":50},{"label":"CANCELLATION FEE","20ft":100,"40ft":100},{"label":"PALLET JACK FEE (NO WRAP / NO FORK)","20ft":40,"40ft":60},{"label":"PALLET RESTACK","20ft":10,"40ft":10}]},"GEN FREIGHT":{"address":"10 Overlord Place, Acacia Ridge","tiers":{"DRIVING OR NOT":[{"label":"1-1499 CTNS / 1-9 SKUS","20ft":180,"40ft":250},{"label":"1500 - 2499 CTNS / 10-19 SKUS","20ft":200,"40ft":270},{"label":"2500 - 3499 CTNS / 20 - 29 SKUS","20ft":220,"40ft":290},{"label":"3500 - 4999 CTNS / 30 - 39 SKUS","20ft":240,"40ft":310},{"label":"5000 - 5999 CTNS / 40 - 49 SKUS","20ft":260,"40ft":330},{"label":"6000 - 6999 CTNS / 50 - 59 SKUS","20ft":280,"40ft":350},{"label":"7000 - 7999 CTNS / 60 - 69 SKUS","20ft":300,"40ft":370},{"label":"8000+ CTNS / 70+ SKUS","20ft":320,"40ft":390}]},"extras":[{"label":"CANCELLATION FEE","20ft":100,"40ft":100},{"label":"HEAVY WEIGHT","20ft":50,"40ft":50},{"label":"PALLET RESTACK","20ft":8,"40ft":8},{"label":"WAITING TIME","20ft":33.1,"40ft":33.1},{"label":"EXTRA WORK","20ft":33.1,"40ft":33.1},{"label":"LABOUR HIRE","20ft":33.1,"40ft":33.1},{"label":"FORKLIFT DRIVER","20ft":34.5,"40ft":34.5}]},"FANTASTIC FURNITURES":{"address":"3a/11 Rocla Place, Wacol 4076","tiers":{"ALWAYS DRIVE":[{"label":"CASE","20ft":180,"40ft":270},{"label":"RECLINERS 2 /3 SITTERS","20ft":150,"40ft":230},{"label":"SOFA","20ft":100,"40ft":150}]},"extras":[{"label":"WAITING TIME","20ft":33.1,"40ft":33.1},{"label":"LABOUR HIRIRING","20ft":33.1,"40ft":33.1},{"label":"LABOUR HIRE (CONTAINER)","20ft":35,"40ft":35},{"label":"FORKLIFT DRIVER","20ft":34.5,"40ft":34.5},{"label":"HIGH REACH DRIVER","20ft":35,"40ft":35},{"label":"CANCELLATION FEE","20ft":100,"40ft":100}]},"MACH1 LOGISTICS":{"address":"186 BOUNDARY ROAD, ROCKLEA","tiers":{"NOT DRIVING":[{"label":"1-1499 CTNS / 1-9 SKU","20ft":160,"40ft":220},{"label":"1500-2499 CTNS / 10-19 SKU","20ft":180,"40ft":240},{"label":"2500-3499 CTNS / 20-29 SKU","20ft":200,"40ft":260},{"label":"3500-4999 CTNS / 30-39 SKU","20ft":220,"40ft":280},{"label":"5000-5999 CTNS / 40-49 SKU","20ft":240,"40ft":300},{"label":"6000-6999 CTNS / 50-59 SKU","20ft":260,"40ft":320},{"label":"7000-7999 CTNS / 60-69 SKU","20ft":280,"40ft":340},{"label":"+8000 CTNS / +70SKU","20ft":300,"40ft":360}],"DRIVING":[{"label":"1-1499 CTNS / 1-9 SKU","20ft":180,"40ft":240},{"label":"1500-2499 CTNS / 10-19 SKU","20ft":200,"40ft":260},{"label":"2500-3499 CTNS / 20-29 SKU","20ft":220,"40ft":280},{"label":"3500-4999 CTNS / 30-39 SKU","20ft":240,"40ft":300},{"label":"5000-5999 CTNS / 40-49 SKU","20ft":260,"40ft":320},{"label":"6000-6999 CTNS / 50-59 SKU","20ft":280,"40ft":340},{"label":"7000-7999 CTNS / 60-69 SKU","20ft":300,"40ft":360},{"label":"+8000 CTNS / +70SKU","20ft":320,"40ft":380}]},"extras":[{"label":"Container cancelled","20ft":100,"40ft":100},{"label":"Container mixed/collpased","20ft":"Hourly","40ft":"Hourly"},{"label":"Heavy lift (Over 30kg)","20ft":50,"40ft":50},{"label":"Pallet jack fee","20ft":40,"40ft":60},{"label":"Pallets restack","20ft":8,"40ft":8},{"label":"Waiting time","20ft":33.1,"40ft":33.1},{"label":"Extra work","20ft":33.1,"40ft":33.1},{"label":"Labour hire","20ft":33.1,"40ft":33.1},{"label":"Forklift driver","20ft":34.5,"40ft":34.5}]},"MELLO LOGISTICS SOLUTIONS":{"address":"2/ 854 Boundary road, coopers planes","tiers":{"NOT DRIVING":[{"label":"1-1499 CTNS / 1-9 SKU","20ft":140,"40ft":220},{"label":"1500-2499 CTNS / 10-19 SKU","20ft":160,"40ft":240},{"label":"2500-3499 CTNS / 20-29 SKU","20ft":180,"40ft":260},{"label":"3500-4499 CTNS / 30-39 SKU","20ft":200,"40ft":280},{"label":"4500-5499 CTNS / 40-49 SKU","20ft":220,"40ft":300},{"label":"5500 - 6499 CTNS / 50-59 SKU","20ft":240,"40ft":320},{"label":"6500 - 7499  CTNS / 60-69 SKU","20ft":260,"40ft":340},{"label":"7500+  CTNS / +70SKU","20ft":280,"40ft":360}],"DRIVING":[{"label":"1-1499 CTNS / 1-9 SKU","20ft":160,"40ft":240},{"label":"1500-2499 CTNS / 10-19 SKU","20ft":180,"40ft":260},{"label":"2500-3499 CTNS / 20-29 SKU","20ft":200,"40ft":280},{"label":"3500-4499 CTNS / 30-39 SKU","20ft":220,"40ft":300},{"label":"4500-5499 CTNS / 40-49 SKU","20ft":240,"40ft":320},{"label":"5500 - 6499 CTNS / 50-59 SKU","20ft":260,"40ft":340},{"label":"6500 - 7499  CTNS / 60-69 SKU","20ft":280,"40ft":360},{"label":"7500+  CTNS / +70SKU","20ft":280,"40ft":360}]},"extras":[{"label":"CONTAINER CANCELLED","20ft":100,"40ft":100},{"label":"Heavy lift","20ft":50,"40ft":50},{"label":"Pallet jack fee","20ft":60,"40ft":60},{"label":"Pallets restack","20ft":8,"40ft":8},{"label":"WAITING TIME","20ft":33.1,"40ft":33.1},{"label":"EXTRA WORK","20ft":33.1,"40ft":33.1},{"label":"LABOUR HIRE","20ft":33.1,"40ft":33.1},{"label":"FORKLIFT DRIVER","20ft":34.5,"40ft":34.5}]},"MOVE LOGISTIC":{"address":"22 Jalrock Place\nCarole Park, QLD - Call Angela on arrivel (0499 802 430)","tiers":{"NOT DRIVING":[{"label":"0 - 1499 CTNS /0- 9 SKUS","20ft":140,"40ft":220},{"label":"1500 - 2499 CTNS /10-19 SKUS","20ft":160,"40ft":240},{"label":"2500 - 3499 CTNS / 20-29 SKUS","20ft":180,"40ft":260},{"label":"3500 - 4999 CTNS / 30-39 SKUS","20ft":200,"40ft":280},{"label":"5000 - 5999 CTNS / 40- 49 SKUS","20ft":220,"40ft":300},{"label":"6000 - 6999 CTNS / 50-59 SKUS","20ft":240,"40ft":320},{"label":"7000 - 7999 CTNS / 60-69 SKUS","20ft":260,"40ft":340},{"label":"8000+ CTNS / 70+ SKUS","20ft":280,"40ft":360}],"DRIVING":[{"label":"0 - 1499 CTNS /0- 9 SKUS","20ft":160,"40ft":240},{"label":"1500 - 2499 CTNS /10-19 SKUS","20ft":180,"40ft":260},{"label":"2500 - 3499 CTNS / 20-29 SKUS","20ft":200,"40ft":280},{"label":"3500 - 4999 CTNS / 30-39 SKUS","20ft":220,"40ft":300},{"label":"5000 - 5999 CTNS / 40- 49 SKUS","20ft":240,"40ft":320},{"label":"6000 - 6999 CTNS / 50-59 SKUS","20ft":260,"40ft":340},{"label":"7000 - 7999 CTNS / 60-69 SKUS","20ft":280,"40ft":360},{"label":"8000+ CTNS / 70+ SKUS","20ft":300,"40ft":380}]},"extras":[{"label":"CONTAINER CANCELLED","20ft":100,"40ft":100},{"label":"CONTAINER MIXED COLLAPSED","20ft":80,"40ft":80},{"label":"HEAVY WEIGHT","20ft":50,"40ft":50},{"label":"PALLET JACK FEE","20ft":40,"40ft":60},{"label":"PALLET RE STACK","20ft":8,"40ft":8},{"label":"WAITING TIME","20ft":33.1,"40ft":33.1},{"label":"EXTRA WORK","20ft":33.1,"40ft":33.1},{"label":"LABOUR HIRIRING","20ft":33.1,"40ft":33.1},{"label":"FORKLIFT DRIVER","20ft":34.5,"40ft":34.5}]},"NATIONAL LOGISTIC":{"address":"Shed 2/44 Shettleston St, Rocklea 4116","tiers":{"DRIVING":[{"label":"0 - 1499 CTNS / 0-9 SKUS","20ft":160,"40ft":240},{"label":"1500 - 2499 CTNS / 10-19 SKUS","20ft":180,"40ft":260},{"label":"2500 - 3499 CTNS / 20 - 29 SKUS","20ft":200,"40ft":280},{"label":"3500 - 4499 CTNS / 30 - 39 SKUS","20ft":220,"40ft":300},{"label":"5000 - 5499 CTNS / 40 - 49 SKUS","20ft":240,"40ft":320},{"label":"6000 - 6499 CTNS / 50 - 59 SKUS","20ft":260,"40ft":340},{"label":"7000 - 7999 CTNS / 60 - 69 SKUS","20ft":280,"40ft":360},{"label":"8000+ CTNS / 70+ SKUS","20ft":300,"40ft":380}],"NOT DRIVING":[{"label":"0 - 1499 CTNS / 0-9 SKUS","20ft":140,"40ft":220},{"label":"1500 - 2499 CTNS / 10-19 SKUS","20ft":160,"40ft":240},{"label":"2500 - 3499 CTNS / 20 - 29 SKUS","20ft":180,"40ft":260},{"label":"3500 - 4499 CTNS / 30 - 39 SKUS","20ft":200,"40ft":280},{"label":"5000 - 5499 CTNS / 40 - 49 SKUS","20ft":220,"40ft":300},{"label":"6000 - 6499 CTNS / 50 - 59 SKUS","20ft":240,"40ft":320},{"label":"7000 - 7999 CTNS / 60 - 69 SKUS","20ft":260,"40ft":340},{"label":"8000+ CTNS / 70+ SKUS","20ft":280,"40ft":360}]},"extras":[{"label":"Container cancelled","20ft":100,"40ft":100},{"label":"Heavy lift","20ft":40,"40ft":60},{"label":"Pallet jack fee","20ft":8,"40ft":8},{"label":"Pallets restack","20ft":10,"40ft":10},{"label":"Waiting time","20ft":33.1,"40ft":33.1},{"label":"Extra work","20ft":33.1,"40ft":33.1},{"label":"Labour hire","20ft":33.1,"40ft":33.1},{"label":"Forklift driver","20ft":34.5,"40ft":34.5}]},"O'KELLY":{"address":"1-2, 7 Griffin Crescent, Brendale, QLD 4500","tiers":{"DRIVING":[{"label":"0 to 1999 ctns / 1 to 09 SKU","20ft":150,"40ft":250},{"label":"0 to 1999 ctns / 10 to 15 SKU","20ft":180,"40ft":280},{"label":"2000 to 2999 ctns / +16 SKU","20ft":180,"40ft":280},{"label":"3000 to 3999 ctns / +30 SKU","20ft":210,"40ft":310},{"label":"4000 to 5999 ctns / +50 SKU","20ft":240,"40ft":340},{"label":"6000+ ctns","20ft":270,"40ft":370}]},"extras":[{"label":"WAITING TIME","20ft":33.1,"40ft":33.1},{"label":"EXTRA WORK","20ft":33.1,"40ft":33.1},{"label":"LABOUR HIRIRING","20ft":33.1,"40ft":33.1},{"label":"FORKLIFT DRIVER","20ft":34.5,"40ft":34.5},{"label":"HIGH REACH DRIVER","20ft":35,"40ft":35},{"label":"PALLET JACK FEE","20ft":40,"40ft":60},{"label":"CANCELLATION FEE","20ft":150,"40ft":150},{"label":"HEAVY WEIGHT","20ft":50,"40ft":50},{"label":"Slipsheet container","20ft":100,"40ft":150}]},"POLYCELL INTERNATIONAL":{"address":"32 Eurora Street, Kingston 4114","tiers":{"DRIVING":[{"label":"1-1499 CTNS / 1-9 SKU","20ft":200,"40ft":280},{"label":"1500-2499 CTNS / 10-19 SKU","20ft":240,"40ft":310},{"label":"2500-3499 CTNS / 20-29 SKU","20ft":280,"40ft":340},{"label":"3500-4499 CTNS / 30-39 SKU","20ft":320,"40ft":370}]},"extras":[{"label":"CONTAINER CANCELLED","20ft":100,"40ft":100},{"label":"Container mixed/collapsed","20ft":"Hourly","40ft":"Hourly"},{"label":"Heavy lift","20ft":50,"40ft":50},{"label":"Pallet jack fee","20ft":60,"40ft":60},{"label":"Pallets restack","20ft":8,"40ft":8},{"label":"WAITING TIME","20ft":33.1,"40ft":33.1},{"label":"EXTRA WORK","20ft":33.1,"40ft":33.1},{"label":"LABOUR HIRE","20ft":33.1,"40ft":33.1},{"label":"FORKLIFT DRIVER","20ft":34.5,"40ft":34.5}]},"QLS":{"address":"Shed 1/204 Gilmore Rd Berrinba 4117 QLD/ Second Gate on the left","tiers":{},"extras":[{"label":"TV'S","20ft":130,"40ft":175},{"label":"TV'S (Over 500 ctns)","20ft":"SAME AS LOOSE CTNS","40ft":"SAME AS LOOSE CTNS"},{"label":"FRIDGES","20ft":105,"40ft":125},{"label":"FRIDGES HEAVY WEGHT (100 kg +)","20ft":110,"40ft":140},{"label":"HEAVY CLAMP (WASHING MACHINE / OVEN)","20ft":110,"40ft":145},{"label":"AIR CON","20ft":175,"40ft":200},{"label":"Air con (Picking orders)","20ft":195,"40ft":260},{"label":"PALLETIZED","20ft":60,"40ft":80},{"label":"Loose 0 to 1000 / 0 to 10 skus","20ft":140,"40ft":200},{"label":"Loose 1001 to 2000 / 11 to 20 skus","20ft":160,"40ft":240},{"label":"Loose 2001 to 3000 / 21 to 30 skus","20ft":180,"40ft":280},{"label":"Loose 3001 to 4000+ / 31 to 40+ skus","20ft":200,"40ft":320},{"label":"Labour Hire","20ft":33.1,"40ft":33.1},{"label":"Forklift Hire","20ft":34.5,"40ft":34.5},{"label":"High reach driver","20ft":35,"40ft":35},{"label":"Waiting time","20ft":33.1,"40ft":33.1}]},"QEP":{"address":"Factory 5, 4 Computer Rd, Yatala, QLD","tiers":{"NOT DRIVING":[{"label":"0 - 1499 CTNS / 0-9 SKUS","20ft":180,"40ft":260},{"label":"1500 - 2499 CTNS / 10-19 SKUS","20ft":200,"40ft":280},{"label":"2500 - 3499 CTNS / 20 - 29 SKUS","20ft":220,"40ft":300},{"label":"3500 - 4499 CTNS / 30 - 39 SKUS","20ft":240,"40ft":320},{"label":"5000 - 5499 CTNS / 40 - 49 SKUS","20ft":260,"40ft":340},{"label":"6000 - 6499 CTNS / 50 - 59 SKUS","20ft":280,"40ft":360},{"label":"7000 - 7999 CTNS / 60 - 69 SKUS","20ft":300,"40ft":380},{"label":"8000+ CTNS / 70+ SKUS","20ft":320,"40ft":400}],"DRIVING":[{"label":"0 - 1499 CTNS / 0-9 SKUS","20ft":200,"40ft":280},{"label":"1500 - 2499 CTNS / 10-19 SKUS","20ft":220,"40ft":300},{"label":"2500 - 3499 CTNS / 20 - 29 SKUS","20ft":240,"40ft":320},{"label":"3500 - 4499 CTNS / 30 - 39 SKUS","20ft":260,"40ft":340},{"label":"5000 - 5499 CTNS / 40 - 49 SKUS","20ft":280,"40ft":360},{"label":"6000 - 6499 CTNS / 50 - 59 SKUS","20ft":300,"40ft":380},{"label":"7000 - 7999 CTNS / 60 - 69 SKUS","20ft":320,"40ft":400},{"label":"8000+ CTNS / 70+ SKUS","20ft":340,"40ft":420}]},"extras":[{"label":"Container cancelled","20ft":100,"40ft":100},{"label":"Container mixed/collapsed","20ft":"Hourly","40ft":"Hourly"},{"label":"Heavy lift","20ft":50,"40ft":50},{"label":"Pallet jack fee","20ft":60,"40ft":60},{"label":"Pallets restack","20ft":8,"40ft":8},{"label":"Waiting time","20ft":33.1,"40ft":33.1},{"label":"Extra work","20ft":33.1,"40ft":33.1},{"label":"Labour hire","20ft":33.1,"40ft":33.1},{"label":"Forklift driver","20ft":34.5,"40ft":34.5}]},"SEND-ABLE":{"address":"169-171 Magnesium Drive, Crestmead","tiers":{"DRIVING":[{"label":"0 - 1499 CTNS / 0-9 SKUS","20ft":220,"40ft":300},{"label":"1500 - 2499 CTNS / 10-19 SKUS","20ft":240,"40ft":320},{"label":"2500 - 3499 CTNS / 20 - 29 SKUS","20ft":260,"40ft":340},{"label":"3500 - 4499 CTNS / 30 - 39 SKUS","20ft":280,"40ft":360},{"label":"5000 - 5499 CTNS / 40 - 49 SKUS","20ft":300,"40ft":380},{"label":"6000 - 6499 CTNS / 50 - 59 SKUS","20ft":320,"40ft":400},{"label":"7000 - 7999 CTNS / 60 - 69 SKUS","20ft":340,"40ft":420},{"label":"8000+ CTNS / 70+ SKUS","20ft":360,"40ft":440}]},"extras":[{"label":"Container cancelled","20ft":100,"40ft":100},{"label":"Container mixed/collapsed","20ft":60,"40ft":60},{"label":"Heavy lift","20ft":50,"40ft":50},{"label":"Pallet jack fee","20ft":40,"40ft":60},{"label":"Pallets restack","20ft":10,"40ft":10},{"label":"Waiting time","20ft":33.1,"40ft":33.1},{"label":"Extra work","20ft":33.1,"40ft":33.1},{"label":"Labour hire","20ft":33.1,"40ft":33.1},{"label":"Forklift driver","20ft":34.5,"40ft":34.5}]},"TEAM TRANSPORT & LOGISTICS":{"address":"4 Radar Street, Lytton 4178","tiers":{"NOT DRIVING":[{"label":"1-1499 CTNS / 1-9 SKU","20ft":160,"40ft":230},{"label":"1500-2499 CTNS / 10-19 SKU","20ft":180,"40ft":250},{"label":"2500-3499 CTNS / 20-29 SKU","20ft":200,"40ft":270},{"label":"3500-4999 CTNS / 30-39 SKU","20ft":220,"40ft":290},{"label":"5000-5999 CTNS / 40-49 SKU","20ft":240,"40ft":310},{"label":"6000-6999 CTNS / 50-59 SKU","20ft":260,"40ft":330},{"label":"7000-7999 CTNS / 60-69 SKU","20ft":280,"40ft":350},{"label":"+8000 CTNS / +70 SKU","20ft":300,"40ft":370}],"DRIVING":[{"label":"1-1499 CTNS / 1-9 SKU","20ft":180,"40ft":250},{"label":"1500-2499 CTNS / 10-19 SKU","20ft":200,"40ft":270},{"label":"2500-3499 CTNS / 20-29 SKU","20ft":220,"40ft":290},{"label":"3500-4999 CTNS / 30-39 SKU","20ft":240,"40ft":310},{"label":"5000-5999 CTNS / 40-49 SKU","20ft":260,"40ft":330},{"label":"6000-6999 CTNS / 50-59 SKU","20ft":280,"40ft":350},{"label":"7000-7999 CTNS / 60-69 SKU","20ft":300,"40ft":370},{"label":"+8000 CTNS / +70 SKU","20ft":320,"40ft":390}]},"extras":[{"label":"CONTAINER CANCELLED","20ft":100,"40ft":100},{"label":"CONTAINER MIXED / COLLAPSED","20ft":50,"40ft":50},{"label":"HEAVY LIFT (PRODUCTS OVER 30KG)","20ft":50,"40ft":50},{"label":"PALLET JACK FEE (NO RAMP/NO FORKLIFT)","20ft":40,"40ft":60},{"label":"PALLET RESTACK","20ft":8,"40ft":8},{"label":"WAITING TIME","20ft":33.1,"40ft":33.1},{"label":"EXTRA WORK","20ft":33.1,"40ft":33.1},{"label":"LABOUR HIRIRING","20ft":33.1,"40ft":33.1},{"label":"FORKLIFR DRIVER","20ft":34.5,"40ft":34.5}]},"TLS":{"address":"116 - 130 Gilmore Road, Berrinba 4117 QLD","tiers":{"DRIVING":[{"label":"1 - 1499 CTNS / 1 - 9 SKUS","20ft":180,"40ft":260},{"label":"1500 - 1999 CTNS 10 - 15 SKUS","20ft":200,"40ft":280},{"label":"2000 - 2499 CTNS 16 - 20 SKUS","20ft":220,"40ft":300},{"label":"2500 - 2999 CTNS21 - 25 SKUS","20ft":240,"40ft":320},{"label":"3000 - 3499 CTNS 26 - 30 SKUS","20ft":260,"40ft":340},{"label":"3500 - 3999 CTNS31 - 35 SKUS","20ft":280,"40ft":360},{"label":"4000 - 4499 CTNS 36 - 40 SKUS","20ft":300,"40ft":380},{"label":"4500 - 4999 CTNS 41 - 45 SKUS","20ft":320,"40ft":400},{"label":"5000 - 5499 CTNS 46 - 50 SKUS","20ft":340,"40ft":420},{"label":"5500 - 5999 CTNS 51 - 55 SKUS","20ft":360,"40ft":440}]},"extras":[{"label":"PALLET JACK FEE","20ft":40,"40ft":60},{"label":"WAITING TIME","20ft":33.1,"40ft":33.1},{"label":"EXTRA WORK","20ft":33.1,"40ft":33.1},{"label":"LABOUR HIRIRING","20ft":33.1,"40ft":33.1},{"label":"FORKLIFR DRIVER","20ft":34.5,"40ft":34.5},{"label":"HIGH REACH DRIVER","20ft":35,"40ft":35},{"label":"HEAVY WEIGHT","20ft":50,"40ft":50}]},"THE CONSORTIUM CLEMENGER":{"address":"151 Rudd Street, Inala 4077 (Look for the building with KUEHNE + NAGEL signs.  Park in carpark on the right when you drive in, and then head into the warehouse","tiers":{"DRIVING":[{"label":"1-1499 CTNS / 1-5 SKU","20ft":180,"40ft":240},{"label":"1500-2499 CTNS / 1-5 SKU","20ft":200,"40ft":260},{"label":"2500-3499 CTNS / 6-10 SKU","20ft":220,"40ft":280},{"label":"3500-4499 CTNS / 11-25 SKUS","20ft":240,"40ft":300},{"label":"5000-5999 CTNS / 26-40 SKUS","20ft":260,"40ft":320},{"label":"6000-6999 CTNS / 41-55 SKUS","20ft":280,"40ft":340},{"label":"7000-7999 CTNS / 56-69 SKUS","20ft":300,"40ft":360},{"label":"8000+ CTNS / 70+ SKUS","20ft":320,"40ft":380}],"NOT DRIVING":[{"label":"1-1499 CTNS / 1-5 SKU","20ft":160,"40ft":220},{"label":"1500-2499 CTNS / 1-5 SKU","20ft":180,"40ft":240},{"label":"2500-3499 CTNS / 6-10 SKU","20ft":200,"40ft":260},{"label":"3500-4499 CTNS / 11-25 SKUS","20ft":220,"40ft":280},{"label":"5000-5999 CTNS / 26-40 SKUS","20ft":240,"40ft":300},{"label":"6000-6999 CTNS / 41-55 SKUS","20ft":260,"40ft":320},{"label":"7000-7999 CTNS / 56-69 SKUS","20ft":280,"40ft":340},{"label":"8000+ CTNS / 70+ SKUS","20ft":300,"40ft":360}]},"extras":[{"label":"CONTAINER CANCELLED","20ft":100,"40ft":100},{"label":"HEAVY LIFT (PRODUCTS OVER 30KG)","20ft":50,"40ft":50},{"label":"PALLET JACK FEE (NO RAMP/NO FORKLIFT)","20ft":40,"40ft":60},{"label":"PALLET RESTACK - UP TO 99 CTNS","20ft":8,"40ft":8},{"label":"PALLET RESTACK - OVER 100 CTNS","20ft":10,"40ft":10},{"label":"WAITING TIME","20ft":33.1,"40ft":33.1},{"label":"EXTRA WORK","20ft":33.1,"40ft":33.1},{"label":"LABOUR HIRE","20ft":33.1,"40ft":33.1},{"label":"FORKLIFT DRIVER","20ft":34.5,"40ft":34.5}]},"VISION LOGISTICS":{"address":"729-739 MacArthur Avenue Central,, Pinkenba QLD","tiers":{"NOT DRIVING":[{"label":"1-1499 CTNS / 1-9 SKU","20ft":160,"40ft":230},{"label":"1500-2499 CTNS / 10-19 SKU","20ft":180,"40ft":250},{"label":"2500-3499 CTNS / 20-29 SKU","20ft":200,"40ft":270},{"label":"3500-4999 CTNS / 30-39 SKU","20ft":220,"40ft":290},{"label":"5000-5999 CTNS / 40-49 SKU","20ft":240,"40ft":310},{"label":"6000-6999 CTNS / 50-59 SKU","20ft":260,"40ft":330},{"label":"7000-7999 CTNS / 60-69 SKU","20ft":280,"40ft":350},{"label":"+8000 CTNS / +70 SKU","20ft":300,"40ft":370}],"DRIVING":[{"label":"1-1499 CTNS / 1-9 SKU","20ft":180,"40ft":250},{"label":"1500-2499 CTNS / 10-19 SKU","20ft":200,"40ft":270},{"label":"2500-3499 CTNS / 20-29 SKU","20ft":220,"40ft":290},{"label":"3500-4999 CTNS / 30-39 SKU","20ft":240,"40ft":310},{"label":"5000-5999 CTNS / 40-49 SKU","20ft":260,"40ft":330},{"label":"6000-6999 CTNS / 50-59 SKU","20ft":280,"40ft":350},{"label":"7000-7999 CTNS / 60-69 SKU","20ft":300,"40ft":370},{"label":"+8000 CTNS / +70 SKU","20ft":320,"40ft":390}]},"extras":[{"label":"CONTAINER CANCELLED","20ft":100,"40ft":100},{"label":"CONTAINER MIXED / COLLAPSED","20ft":50,"40ft":50},{"label":"HEAVY LIFT (PRODUCTS OVER 30KG)","20ft":50,"40ft":50},{"label":"PALLET JACK FEE (NO RAMP/NO FORKLIFT)","20ft":40,"40ft":60},{"label":"PALLET RESTACK","20ft":8,"40ft":8},{"label":"WAITING TIME","20ft":33.1,"40ft":33.1},{"label":"EXTRA WORK","20ft":33.1,"40ft":33.1},{"label":"LABOUR HIRE","20ft":33.1,"40ft":33.1},{"label":"FORKLIFT DRIVER","20ft":34.5,"40ft":34.5}]}}}
+;
+
+// ====== ESTADO ======
+let state = {
+  crew: '',
+  customer: '',
+  size: '',
+  section: '',
+  tier: null,
+  extras: {},  // {label: qty}
+  people: [],  // [{name, pct}] - personas seleccionadas para el contenedor actual
+  actualCtns: '', // cantidad real descargada
+  actualSkus: '', // SKUs reales
+};
+
+let entries = [];  // [{id, crew, customer, size, section, tier, extras, base, total, people, timestamp}]
+let dayCrew = []; // [{id, name}] - personas del día (lista maestra)
+let dateKey = '';
+
+// ====== INICIALIZACIÓN ======
+function getTodayKey() {
+  const d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+
+function formatTodayDate() {
+  const d = new Date();
+  const dias = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+  const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  return dias[d.getDay()] + ', ' + d.getDate() + ' ' + meses[d.getMonth()];
+}
+
+async function loadDay() {
+  dateKey = getTodayKey();
+  document.getElementById('today-label').textContent = formatTodayDate();
+  try {
+    const res = await window.storage.get('day:' + dateKey);
+    if (res && res.value) {
+      entries = JSON.parse(res.value);
+    } else {
+      entries = [];
+    }
+  } catch(e) {
+    entries = [];
+  }
+  // Cargar crew del día
+  try {
+    const res = await window.storage.get('crew:' + dateKey);
+    if (res && res.value) {
+      dayCrew = JSON.parse(res.value);
+    } else {
+      dayCrew = [];
+    }
+  } catch(e) {
+    dayCrew = [];
+  }
+  // Cleanup: borrar dias anteriores (entries y crews)
+  try {
+    const list1 = await window.storage.list('day:');
+    if (list1 && list1.keys) {
+      for (const k of list1.keys) {
+        if (k !== 'day:' + dateKey) await window.storage.delete(k);
+      }
+    }
+    const list2 = await window.storage.list('crew:');
+    if (list2 && list2.keys) {
+      for (const k of list2.keys) {
+        if (k !== 'crew:' + dateKey) await window.storage.delete(k);
+      }
+    }
+  } catch(e) {}
+  renderDayView();
+  renderCrewView();
+}
+
+async function saveDay() {
+  try {
+    await window.storage.set('day:' + dateKey, JSON.stringify(entries));
+  } catch(e) {
+    console.error('Save failed', e);
+  }
+}
+
+async function saveCrew() {
+  try {
+    await window.storage.set('crew:' + dateKey, JSON.stringify(dayCrew));
+  } catch(e) {
+    console.error('Save crew failed', e);
+  }
+}
+
+// ====== UI: CREW & CUSTOMER ======
+function onCrewChange() {
+  state.crew = document.getElementById('sel-crew').value;
+  state.customer = '';
+  document.getElementById('addr-btn').style.display = 'none';
+  if (!state.crew) {
+    hideAfter('crew');
+    return;
+  }
+  const customers = Object.keys(PRICES[state.crew]).sort();
+  const sel = document.getElementById('sel-customer');
+  sel.innerHTML = '<option value="">Selecciona cliente...</option>' +
+    customers.map(c => '<option value="' + escapeAttr(c) + '">' + escapeHtml(c) + '</option>').join('');
+  document.getElementById('card-customer').style.display = 'block';
+  hideAfter('customer');
+}
+
+function onCustomerChange() {
+  state.customer = document.getElementById('sel-customer').value;
+  if (!state.customer) {
+    hideAfter('customer');
+    document.getElementById('addr-display').textContent = '';
+    document.getElementById('addr-btn').style.display = 'none';
+    return;
+  }
+  const cdata = PRICES[state.crew][state.customer];
+  const addrShort = cdata.address.length > 50 ? cdata.address.substring(0, 47) + '...' : cdata.address;
+  document.getElementById('addr-display').textContent = '📍 ' + addrShort;
+  document.getElementById('addr-btn').style.display = 'inline-block';
+
+  state.size = '';
+  state.section = '';
+  state.tier = null;
+  state.extras = {};
+  document.getElementById('card-size').style.display = 'block';
+  document.getElementById('size-20').classList.remove('active');
+  document.getElementById('size-40').classList.remove('active');
+  hideAfter('size');
+}
+
+function selectSize(s) {
+  state.size = s;
+  state.section = '';
+  state.tier = null;
+  document.getElementById('size-20').classList.toggle('active', s === '20ft');
+  document.getElementById('size-40').classList.toggle('active', s === '40ft');
+
+  // Render sections
+  const cdata = PRICES[state.crew][state.customer];
+  const sections = Object.keys(cdata.tiers);
+  const tabs = document.getElementById('section-tabs');
+  if (sections.length === 0) {
+    document.getElementById('card-section').style.display = 'none';
+    state.section = '_extras_only_';
+    renderTiers();
+    renderExtras();
+    return;
+  }
+  if (sections.length === 1) {
+    state.section = sections[0];
+    document.getElementById('card-section').style.display = 'none';
+    renderTiers();
+    renderExtras();
+    return;
+  }
+  tabs.innerHTML = sections.map(s =>
+    '<div class="section-tab" onclick="selectSection(\'' + escapeAttr(s) + '\')">' + escapeHtml(s) + '</div>'
+  ).join('');
+  document.getElementById('card-section').style.display = 'block';
+  document.getElementById('card-tier').style.display = 'none';
+  document.getElementById('card-extras').style.display = 'none';
+  updateSummary();
+}
+
+function selectSection(s) {
+  state.section = s;
+  state.tier = null;
+  document.querySelectorAll('.section-tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+  renderTiers();
+  renderExtras();
+}
+
+function renderTiers() {
+  if (state.section === '_extras_only_') {
+    document.getElementById('card-tier').style.display = 'none';
+    return;
+  }
+  const cdata = PRICES[state.crew][state.customer];
+  const tiers = cdata.tiers[state.section] || [];
+  const list = document.getElementById('tier-list');
+  list.innerHTML = tiers.map((t, i) => {
+    const price = t[state.size];
+    const priceDisplay = (typeof price === 'number') ? '$' + price : (price || '-');
+    const disabled = (price === null || price === undefined || price === '-' || price === '?');
+    return '<div class="tier-pill ' + (disabled ? 'disabled' : '') + '" ' +
+      'onclick="selectTier(' + i + ', this)" ' +
+      'data-disabled="' + disabled + '">' +
+      '<span class="label-txt">' + escapeHtml(t.label) + '</span>' +
+      '<span class="price">' + priceDisplay + '</span>' +
+      '</div>';
+  }).join('');
+  document.getElementById('card-tier').style.display = 'block';
+}
+
+function selectTier(idx, el) {
+  if (el.dataset.disabled === 'true') return;
+  const cdata = PRICES[state.crew][state.customer];
+  const t = cdata.tiers[state.section][idx];
+  const price = t[state.size];
+  if (typeof price !== 'number') return;
+  state.tier = { label: t.label, price: price };
+  document.querySelectorAll('.tier-pill').forEach(p => p.classList.remove('selected'));
+  el.classList.add('selected');
+  updateActualsCard();
+  updateSummary();
+}
+
+// Detecta si el tier label tiene patrones numéricos tipo rango
+// Ejemplos que matchean: "1-1499", "1 - 1499", "1500-1999", "8000+", "5 + sku", "0 – 1499"
+function tierHasNumericRange(label) {
+  if (!label) return false;
+  // Patrones que indican rangos:
+  // - Dos números separados por guión/raya: "1-1499", "1500 - 1999", "0 – 1499"
+  // - Número seguido de "+": "8000+", "+8000", "6000 +"
+  // Note: usamos [-\u2013\u2014] para incluir hyphen, en-dash, em-dash
+  if (/\d+\s*[-\u2013\u2014]\s*\d+/.test(label)) return true;
+  if (/\d+\s*\+/.test(label)) return true;
+  if (/\+\s*\d+/.test(label)) return true;
+  return false;
+}
+
+function updateActualsCard() {
+  const card = document.getElementById('card-actuals');
+  if (!state.tier || !tierHasNumericRange(state.tier.label)) {
+    card.style.display = 'none';
+    // Limpiar valores si no aplican
+    state.actualCtns = '';
+    state.actualSkus = '';
+    document.getElementById('actual-ctns').value = '';
+    document.getElementById('actual-skus').value = '';
+    document.getElementById('actual-ctns').classList.remove('invalid');
+    document.getElementById('actual-skus').classList.remove('invalid');
+  } else {
+    card.style.display = 'block';
+  }
+}
+
+function onActualChange() {
+  state.actualCtns = document.getElementById('actual-ctns').value;
+  state.actualSkus = document.getElementById('actual-skus').value;
+  // Limpiar invalid si ya hay valor
+  if (state.actualCtns) document.getElementById('actual-ctns').classList.remove('invalid');
+  if (state.actualSkus) document.getElementById('actual-skus').classList.remove('invalid');
+}
+
+function renderExtras() {
+  const cdata = PRICES[state.crew][state.customer];
+  const extras = cdata.extras || [];
+  if (extras.length === 0) {
+    document.getElementById('card-extras').style.display = 'none';
+    return;
+  }
+  const list = document.getElementById('extras-list');
+  list.innerHTML = extras.map((e, i) => {
+    const rate20 = e['20ft'];
+    const rate40 = e['40ft'];
+    // For the current size, use that rate; if it's missing/non-numeric, fallback to the other or to a single rate
+    let rate = state.size === '20ft' ? rate20 : rate40;
+    if (typeof rate !== 'number') {
+      // Fallback: extras often have same value on both columns; try the other
+      const other = state.size === '20ft' ? rate40 : rate20;
+      if (typeof other === 'number') rate = other;
+    }
+    if (typeof rate !== 'number') return ''; // skip non-numeric extras (like "Hourly", "Add $10")
+    const idAttr = 'extra-' + i;
+    return '<div class="extra-item">' +
+      '<div class="extra-name">' + escapeHtml(e.label) + '</div>' +
+      '<div class="extra-rate">$' + rate + '</div>' +
+      '<input type="number" class="qty-input" id="' + idAttr + '" ' +
+      'min="0" step="0.5" placeholder="0" inputmode="decimal" ' +
+      'data-label="' + escapeAttr(e.label) + '" data-rate="' + rate + '" ' +
+      'oninput="updateSummary()">' +
+    '</div>';
+  }).filter(Boolean).join('');
+  document.getElementById('card-extras').style.display = 'block';
+  updateSummary();
+}
+
+function updateSummary() {
+  state.extras = {};
+  document.querySelectorAll('#extras-list input').forEach(inp => {
+    const qty = parseFloat(inp.value);
+    if (qty && qty > 0) {
+      state.extras[inp.dataset.label] = { qty: qty, rate: parseFloat(inp.dataset.rate) };
+    }
+  });
+
+  const lines = [];
+  let total = 0;
+  if (state.tier) {
+    lines.push({ label: state.tier.label, amount: state.tier.price });
+    total += state.tier.price;
+  }
+  for (const [label, info] of Object.entries(state.extras)) {
+    const sub = info.qty * info.rate;
+    lines.push({ label: label + ' (' + info.qty + ' × $' + info.rate + ')', amount: sub });
+    total += sub;
+  }
+
+  const summary = document.getElementById('summary-card');
+  const brk = document.getElementById('summary-breakdown');
+  const cardPeople = document.getElementById('card-people');
+
+  if (lines.length === 0) {
+    summary.style.display = 'none';
+    cardPeople.style.display = 'none';
+    document.getElementById('btn-save').style.display = 'none';
+    document.getElementById('btn-reset').style.display = 'none';
+    return;
+  }
+  brk.innerHTML = lines.map(l =>
+    '<div class="total-line"><span>' + escapeHtml(l.label) + '</span><span>$' + l.amount.toFixed(2) + '</span></div>'
+  ).join('');
+  document.getElementById('summary-total').textContent = '$' + total.toFixed(2);
+  summary.style.display = 'block';
+  cardPeople.style.display = 'block';
+  renderPeople(total);
+  document.getElementById('btn-save').style.display = 'block';
+  document.getElementById('btn-reset').style.display = 'block';
+}
+
+// ====== CREW (lista maestra del día) ======
+async function addCrewMember() {
+  const input = document.getElementById('new-crew-name');
+  const raw = input.value;
+  const name = normalizeName(raw);
+  if (!name) {
+    showToast('Escribe un nombre');
+    return;
+  }
+  // Check duplicates (case-insensitive, accent-insensitive)
+  const key = normalizeKey(name);
+  if (dayCrew.some(m => normalizeKey(m.name) === key)) {
+    showToast('"' + name + '" ya está en el crew');
+    input.value = '';
+    return;
+  }
+  dayCrew.push({ id: Date.now(), name: name });
+  input.value = '';
+  await saveCrew();
+  renderCrewView();
+  // Si estamos en el formulario, los chips se actualizan también
+  if (document.getElementById('card-people').style.display === 'block') {
+    renderChips(getCurrentTotal());
+  }
+}
+
+async function removeCrewMember(id) {
+  const member = dayCrew.find(m => m.id === id);
+  if (!member) return;
+  const ok = await showConfirm('¿Eliminar a ' + member.name + ' del crew?',
+    'Los contenedores ya guardados con esta persona no se modifican.');
+  if (!ok) return;
+  dayCrew = dayCrew.filter(m => m.id !== id);
+  // También quitar de la selección actual si está
+  state.people = state.people.filter(p => p.crewId !== id);
+  await saveCrew();
+  renderCrewView();
+  if (document.getElementById('card-people').style.display === 'block') {
+    renderChips(getCurrentTotal());
+  }
+}
+
+function renderCrewView() {
+  const list = document.getElementById('crew-list');
+  document.getElementById('tab-crew-count').textContent = dayCrew.length > 0 ? '(' + dayCrew.length + ')' : '';
+  if (dayCrew.length === 0) {
+    list.innerHTML = '<div class="crew-empty">Sin personas en el crew.<br>Agrega los nombres arriba para empezar.</div>';
+    return;
+  }
+  list.innerHTML = dayCrew.map(m =>
+    '<div class="crew-member">' +
+      '<span class="name">' + escapeHtml(m.name) + '</span>' +
+      '<button class="del-btn" onclick="removeCrewMember(' + m.id + ')" aria-label="Eliminar">×</button>' +
+    '</div>'
+  ).join('');
+}
+
+// Normalización para evitar duplicados
+function normalizeName(s) {
+  if (!s) return '';
+  return s.trim().replace(/\s+/g, ' ');
+}
+function normalizeKey(s) {
+  return normalizeName(s).toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, ''); // remove accents
+}
+
+// ====== PERSONAS EN CONTENEDOR (chips) ======
+function getCurrentTotal() {
+  let total = 0;
+  if (state.tier) total += state.tier.price;
+  for (const info of Object.values(state.extras)) {
+    total += info.qty * info.rate;
+  }
+  return total;
+}
+
+function calculateShares(total, people) {
+  // people: [{name, pct}], pct in 25/50/75/100
+  if (!people || people.length === 0) return [];
+  const totalShares = people.reduce((s, p) => s + (p.pct / 100), 0);
+  if (totalShares === 0) return people.map(p => ({ ...p, amount: 0 }));
+  return people.map(p => ({
+    name: p.name,
+    pct: p.pct,
+    amount: total * ((p.pct / 100) / totalShares),
+  }));
+}
+
+// Inicializa state.people con todos los miembros del crew al 100% (default)
+// Solo agrega los que aún no están (preserva ediciones del usuario)
+function syncStatePeopleWithCrew() {
+  const existingIds = new Set(state.people.map(p => p.crewId));
+  for (const m of dayCrew) {
+    if (!existingIds.has(m.id)) {
+      state.people.push({ crewId: m.id, name: m.name, pct: 100, selected: true });
+    }
+  }
+  // Actualizar nombres por si cambiaron (no debería pasar, pero por seguridad)
+  for (const p of state.people) {
+    const m = dayCrew.find(x => x.id === p.crewId);
+    if (m) p.name = m.name;
+  }
+}
+
+function toggleChip(crewId) {
+  const p = state.people.find(x => x.crewId === crewId);
+  if (!p) return;
+  p.selected = !p.selected;
+  renderChips(getCurrentTotal());
+}
+
+function openPctModal(crewId) {
+  const p = state.people.find(x => x.crewId === crewId);
+  if (!p) return;
+  // Si está deseleccionado, lo seleccionamos automáticamente al abrir el modal
+  if (!p.selected) p.selected = true;
+
+  document.getElementById('pct-modal-title').textContent = p.name;
+  const opts = [25, 50, 75, 100];
+  document.getElementById('pct-modal-options').innerHTML = opts.map(v =>
+    '<button class="' + (p.pct === v ? 'active' : '') + '" onclick="setPctFromModal(' + crewId + ', ' + v + ')">' + v + '%</button>'
+  ).join('');
+  document.getElementById('pct-modal').classList.remove('hidden');
+}
+
+function setPctFromModal(crewId, pct) {
+  const p = state.people.find(x => x.crewId === crewId);
+  if (!p) return;
+  p.pct = pct;
+  p.selected = true;
+  closePctModal();
+  renderChips(getCurrentTotal());
+}
+
+function closePctModal(e) {
+  if (e && e.target.id !== 'pct-modal' && e.target.tagName !== 'BUTTON') return;
+  document.getElementById('pct-modal').classList.add('hidden');
+}
+
+function renderChips(total) {
+  syncStatePeopleWithCrew();
+  const grid = document.getElementById('chip-grid');
+  const summaryEl = document.getElementById('people-summary');
+
+  if (dayCrew.length === 0) {
+    grid.innerHTML = '';
+    summaryEl.innerHTML = '<div class="people-warning">⚠ No hay personas en el crew. Ve a la pestaña <strong>Crew</strong> para agregar.</div>';
+    return;
+  }
+
+  grid.innerHTML = state.people.map(p => {
+    const cls = 'chip' + (p.selected ? ' selected' : '') + (p.selected && p.pct < 100 ? ' partial' : '');
+    return '<div class="' + cls + '">' +
+      '<span class="chip-name" onclick="toggleChip(' + p.crewId + ')">' + escapeHtml(p.name) + '</span>' +
+      '<span class="chip-pct" onclick="openPctModal(' + p.crewId + ')">' + p.pct + '%</span>' +
+    '</div>';
+  }).join('');
+
+  // Summary
+  const validPeople = state.people.filter(p => p.selected);
+  if (validPeople.length === 0) {
+    summaryEl.innerHTML = '<div class="people-warning">⚠ Selecciona al menos una persona para este contenedor</div>';
+    return;
+  }
+  const shares = calculateShares(total, validPeople);
+  const sharesHTML = shares.map(s =>
+    '<div>• ' + escapeHtml(s.name) + ' (' + s.pct + '%) → <strong>$' + s.amount.toFixed(2) + '</strong></div>'
+  ).join('');
+  summaryEl.innerHTML = '<div class="people-summary">' + sharesHTML + '</div>';
+}
+
+// Alias para compatibilidad con código existente que llama renderPeople
+function renderPeople(total) {
+  renderChips(total);
+}
+
+async function saveEntry() {
+  const lines = [];
+  let total = 0;
+  let base = 0;
+  if (state.tier) {
+    base = state.tier.price;
+    total += base;
+  }
+  const extrasArr = [];
+  for (const [label, info] of Object.entries(state.extras)) {
+    const sub = info.qty * info.rate;
+    extrasArr.push({ label, qty: info.qty, unitPrice: info.rate, subtotal: sub });
+    total += sub;
+  }
+  if (!state.tier && extrasArr.length === 0) return;
+
+  // Validar: debe haber crew y al menos una persona seleccionada
+  if (dayCrew.length === 0) {
+    showToast('⚠ Agrega al menos una persona al Crew primero');
+    switchView('crew');
+    return;
+  }
+  const validPeople = state.people.filter(p => p.selected);
+  if (validPeople.length === 0) {
+    showToast('⚠ Selecciona al menos una persona para este contenedor');
+    return;
+  }
+
+  // Validar cantidades reales si el card está visible
+  const actualsCard = document.getElementById('card-actuals');
+  const actualsRequired = actualsCard.style.display === 'block';
+  if (actualsRequired) {
+    const ctnsInput = document.getElementById('actual-ctns');
+    const skusInput = document.getElementById('actual-skus');
+    const ctnsVal = ctnsInput.value.trim();
+    const skusVal = skusInput.value.trim();
+    let missing = false;
+    if (!ctnsVal || parseFloat(ctnsVal) <= 0) {
+      ctnsInput.classList.add('invalid');
+      missing = true;
+    }
+    if (!skusVal || parseFloat(skusVal) <= 0) {
+      skusInput.classList.add('invalid');
+      missing = true;
+    }
+    if (missing) {
+      showToast('⚠ Ingresa la cantidad real de CTNS y SKUs');
+      actualsCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    state.actualCtns = ctnsVal;
+    state.actualSkus = skusVal;
+  }
+
+  // Calcular shares
+  const shares = calculateShares(total, validPeople);
+
+  const entry = {
+    id: Date.now(),
+    crew: state.crew,
+    customer: state.customer,
+    size: state.size,
+    section: state.section,
+    tier: state.tier,
+    extras: extrasArr,
+    base: base,
+    total: total,
+    people: shares,  // [{name, pct, amount}]
+    actualCtns: actualsRequired ? state.actualCtns : null,
+    actualSkus: actualsRequired ? state.actualSkus : null,
+    timestamp: new Date().toISOString(),
+  };
+  entries.push(entry);
+  await saveDay();
+  renderDayView();
+  // Stay on customer/crew but reset rates AND people selection
+  state.size = '';
+  state.section = '';
+  state.tier = null;
+  state.extras = {};
+  state.people = [];  // Se re-poblará desde dayCrew al volver a renderChips
+  state.actualCtns = '';
+  state.actualSkus = '';
+  document.getElementById('actual-ctns').value = '';
+  document.getElementById('actual-skus').value = '';
+  document.getElementById('size-20').classList.remove('active');
+  document.getElementById('size-40').classList.remove('active');
+  document.getElementById('card-size').style.display = 'block';
+  hideAfter('size');
+  // Switch to day view to confirm
+  switchView('day');
+}
+
+function resetForm() {
+  state = { crew: '', customer: '', size: '', section: '', tier: null, extras: {}, people: [], actualCtns: '', actualSkus: '' };
+  document.getElementById('actual-ctns').value = '';
+  document.getElementById('actual-skus').value = '';
+  document.getElementById('sel-crew').value = '';
+  hideAfter('crew');
+  document.getElementById('addr-btn').style.display = 'none';
+}
+
+function hideAfter(level) {
+  // Hide cards after the specified level
+  const cards = ['customer','size','section','tier','actuals','extras','people'];
+  const idx = cards.indexOf(level);
+  for (let i = idx + 1; i < cards.length; i++) {
+    const card = document.getElementById('card-' + cards[i]);
+    if (card) card.style.display = 'none';
+  }
+  document.getElementById('summary-card').style.display = 'none';
+  document.getElementById('btn-save').style.display = 'none';
+  document.getElementById('btn-reset').style.display = 'none';
+  if (level === 'crew') {
+    document.getElementById('card-customer').style.display = 'none';
+  }
+}
+
+// ====== DAY VIEW ======
+function renderDayView() {
+  const list = document.getElementById('day-entries-list');
+  const totalEl = document.getElementById('day-total');
+  const metaEl = document.getElementById('day-meta');
+  const clearBtn = document.getElementById('clear-day-btn');
+  const tabCount = document.getElementById('tab-day-count');
+
+  if (entries.length === 0) {
+    list.innerHTML = '<div class="empty-state">' +
+      '<div class="icon">📦</div>' +
+      'Sin contenedores registrados hoy.<br>Toca "Nuevo" para agregar.' +
+      '</div>';
+    totalEl.textContent = '$0';
+    metaEl.textContent = '0 contenedores · 0 clientes';
+    clearBtn.style.display = 'none';
+    document.getElementById('totals-by-customer-container').innerHTML = '';
+    tabCount.textContent = '';
+    return;
+  }
+
+  // Sort by timestamp desc (newest first)
+  const sorted = [...entries].sort((a,b) => b.id - a.id);
+
+  // Total general
+  const total = entries.reduce((s,e) => s + e.total, 0);
+  const customers = new Set(entries.map(e => e.customer));
+  totalEl.textContent = '$' + total.toFixed(2);
+  metaEl.textContent = entries.length + ' contenedor' + (entries.length === 1 ? '' : 'es') +
+    ' · ' + customers.size + ' cliente' + (customers.size === 1 ? '' : 's');
+  tabCount.textContent = '(' + entries.length + ')';
+
+  // Totals by customer
+  const byCustomer = {};
+  for (const e of entries) {
+    const key = e.crew + ' / ' + e.customer;
+    if (!byCustomer[key]) byCustomer[key] = { count: 0, total: 0 };
+    byCustomer[key].count++;
+    byCustomer[key].total += e.total;
+  }
+  let byCustHTML = '';
+  if (Object.keys(byCustomer).length > 1) {
+    byCustHTML = '<div class="totals-by-customer">' +
+      '<h3>Por cliente</h3>' +
+      Object.entries(byCustomer).map(([k, v]) =>
+        '<div class="ct-row"><span>' + escapeHtml(k) + ' (' + v.count + ')</span>' +
+        '<span class="ct-amt">$' + v.total.toFixed(2) + '</span></div>'
+      ).join('') +
+      '</div>';
+  }
+
+  // Totals by person across all containers
+  const byPerson = {};
+  for (const e of entries) {
+    if (!e.people) continue;
+    for (const p of e.people) {
+      if (!byPerson[p.name]) byPerson[p.name] = 0;
+      byPerson[p.name] += p.amount;
+    }
+  }
+  let byPersonHTML = '';
+  if (Object.keys(byPerson).length > 0) {
+    const sortedPeople = Object.entries(byPerson).sort((a,b) => b[1] - a[1]);
+    byPersonHTML = '<div class="totals-by-person">' +
+      '<h3>💰 Reparto por persona</h3>' +
+      sortedPeople.map(([name, amt]) =>
+        '<div class="ct-row"><span>' + escapeHtml(name) + '</span>' +
+        '<span class="ct-amt">$' + amt.toFixed(2) + '</span></div>'
+      ).join('') +
+      '</div>';
+  }
+
+  // Export buttons
+  const exportHTML = '<div class="export-buttons">' +
+    '<button class="btn-copy" onclick="copyMessage()">📋 Copiar</button>' +
+    '<button class="btn-whatsapp" onclick="shareWhatsApp()">📱 WhatsApp</button>' +
+  '</div>';
+
+  document.getElementById('totals-by-customer-container').innerHTML =
+    byPersonHTML + byCustHTML + exportHTML;
+
+  // Render entries
+  list.innerHTML = sorted.map(e => {
+    const brkLines = [];
+    if (e.tier) {
+      brkLines.push('Base (' + enrichTierLabel(e.tier.label, e.actualCtns, e.actualSkus) + '): $' + e.base.toFixed(2));
+    }
+    for (const ex of e.extras) {
+      brkLines.push(ex.label + ': ' + ex.qty + ' × $' + ex.unitPrice + ' = $' + ex.subtotal.toFixed(2));
+    }
+    let peopleHTML = '';
+    if (e.people && e.people.length > 0) {
+      peopleHTML = '<div class="day-people">' +
+        e.people.map(p =>
+          '<div class="day-people-row">' +
+            '<span class="name">👤 ' + escapeHtml(p.name) + ' (' + p.pct + '%)</span>' +
+            '<span class="amt">$' + p.amount.toFixed(2) + '</span>' +
+          '</div>'
+        ).join('') +
+      '</div>';
+    }
+    return '<div class="day-entry">' +
+      '<div class="day-entry-header">' +
+        '<div>' +
+          '<div class="customer">' + escapeHtml(e.customer) + '</div>' +
+          '<div class="meta">' + escapeHtml(e.crew) + ' · ' + e.size + ' · ' +
+          (e.section === '_extras_only_' ? 'solo extras' : escapeHtml(e.section)) + '</div>' +
+        '</div>' +
+        '<div class="amount">$' + e.total.toFixed(2) + '</div>' +
+      '</div>' +
+      '<div class="breakdown">' + brkLines.map(l => '• ' + escapeHtml(l)).join('<br>') + '</div>' +
+      peopleHTML +
+      '<button class="btn-danger" style="margin-top:8px" onclick="deleteEntry(' + e.id + ')">Eliminar</button>' +
+    '</div>';
+  }).join('');
+
+  clearBtn.style.display = 'block';
+}
+
+async function deleteEntry(id) {
+  const ok = await showConfirm('¿Eliminar este contenedor?');
+  if (!ok) return;
+  entries = entries.filter(e => e.id !== id);
+  await saveDay();
+  renderDayView();
+}
+
+async function clearDay() {
+  const ok = await showConfirm('¿Eliminar TODOS los contenedores del día?', 'Esta acción no se puede deshacer.');
+  if (!ok) return;
+  entries = [];
+  await saveDay();
+  renderDayView();
+}
+
+// Modal de confirmación custom (window.confirm está bloqueado en iframes sandbox)
+function showConfirm(title, message) {
+  return new Promise(resolve => {
+    let overlay = document.getElementById('confirm-overlay');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.id = 'confirm-overlay';
+      overlay.className = 'modal-overlay';
+      overlay.innerHTML =
+        '<div class="modal-content" style="max-width:340px;margin:auto;border-radius:14px;align-self:center">' +
+          '<h2 id="confirm-title" style="margin:0 0 8px;font-size:17px"></h2>' +
+          '<p id="confirm-msg" style="margin:0 0 16px;font-size:14px;color:#6e6e73;line-height:1.4"></p>' +
+          '<div style="display:flex;gap:8px">' +
+            '<button class="btn btn-secondary" id="confirm-cancel" style="flex:1">Cancelar</button>' +
+            '<button class="btn" id="confirm-ok" style="flex:1;background:#ff3b30;color:#fff">Eliminar</button>' +
+          '</div>' +
+        '</div>';
+      overlay.style.alignItems = 'center';
+      overlay.style.padding = '20px';
+      document.body.appendChild(overlay);
+    }
+    document.getElementById('confirm-title').textContent = title;
+    document.getElementById('confirm-msg').textContent = message || '';
+    document.getElementById('confirm-msg').style.display = message ? 'block' : 'none';
+    overlay.classList.remove('hidden');
+
+    const cleanup = (result) => {
+      overlay.classList.add('hidden');
+      okBtn.removeEventListener('click', onOk);
+      cancelBtn.removeEventListener('click', onCancel);
+      overlay.removeEventListener('click', onBg);
+      resolve(result);
+    };
+    const okBtn = document.getElementById('confirm-ok');
+    const cancelBtn = document.getElementById('confirm-cancel');
+    const onOk = () => cleanup(true);
+    const onCancel = () => cleanup(false);
+    const onBg = (e) => { if (e.target === overlay) cleanup(false); };
+    okBtn.addEventListener('click', onOk);
+    cancelBtn.addEventListener('click', onCancel);
+    overlay.addEventListener('click', onBg);
+  });
+}
+
+// ====== NAV ======
+function switchView(v) {
+  document.getElementById('view-new').classList.toggle('hidden', v !== 'new');
+  document.getElementById('view-day').classList.toggle('hidden', v !== 'day');
+  document.getElementById('view-crew').classList.toggle('hidden', v !== 'crew');
+  document.getElementById('tab-new').classList.toggle('active', v === 'new');
+  document.getElementById('tab-day').classList.toggle('active', v === 'day');
+  document.getElementById('tab-crew').classList.toggle('active', v === 'crew');
+  if (v === 'day') renderDayView();
+  if (v === 'crew') renderCrewView();
+}
+
+// ====== MODAL ======
+function showAddrModal() {
+  if (!state.customer) return;
+  const cdata = PRICES[state.crew][state.customer];
+  document.getElementById('addr-modal-title').textContent = state.customer;
+  document.getElementById('addr-modal-body').textContent = cdata.address;
+  document.getElementById('addr-modal').classList.remove('hidden');
+}
+function closeAddrModal(e) {
+  if (e && e.target.id !== 'addr-modal' && e.target.tagName !== 'BUTTON') return;
+  document.getElementById('addr-modal').classList.add('hidden');
+}
+
+// ====== EXPORT (mensaje, copy, whatsapp) ======
+function enrichTierLabel(label, actualCtns, actualSkus) {
+  // Inserta (X CTNS) y (Y SKU) dentro del label, justo después del rango respectivo.
+  // Si no hay valores reales, devuelve el label intacto.
+  // Estrategia: identificar dónde está el rango de CTNS y dónde está el de SKU.
+  // El label puede tener formato variado:
+  //   "1500 - 1999 CTNS / 5 SKUS OR LESS"
+  //   "1-1499 CTNS / 1-9 SKU"
+  //   "8000+ CTNS / 70+ SKUS"
+  //   "5500 - 5999 / 40+ SKUS"  (sin la palabra CTNS - typo del template)
+  //   "<5 Sku/batch or 0 – 1499 products"  (formato REDLANDS)
+  // 
+  // Para mantenerlo simple y robusto: dividimos por "/" y procesamos cada parte.
+  // Si la parte contiene "SKU" → es el rango de SKUs → insertar (Y SKU)
+  // Si la parte contiene un rango numérico y NO contiene SKU → es el rango de CTNS → insertar (X CTNS)
+
+  if (!actualCtns && !actualSkus) return label;
+
+  const parts = label.split('/');
+  // Si solo hay una parte, no podemos distinguir CTNS de SKU; insertar ambos al final
+  if (parts.length < 2) {
+    let result = label;
+    if (actualCtns) result += ' (' + actualCtns + ' CTNS)';
+    if (actualSkus) result += ' (' + actualSkus + ' SKU)';
+    return result;
+  }
+
+  const enrichedParts = parts.map(part => {
+    const trimmed = part.trim();
+    const hasSku = /SKU/i.test(trimmed);
+    const hasNumericRange = /\d+\s*[-\u2013\u2014]\s*\d+/.test(trimmed) || /\d+\s*\+/.test(trimmed) || /\+\s*\d+/.test(trimmed);
+
+    if (hasSku && actualSkus) {
+      // Es la parte de SKUs
+      return trimmed + ' (' + actualSkus + ' SKU)';
+    } else if (hasNumericRange && !hasSku && actualCtns) {
+      // Es la parte de CTNS (rango numérico sin mencionar SKU)
+      return trimmed + ' (' + actualCtns + ' CTNS)';
+    }
+    return trimmed;
+  });
+
+  return enrichedParts.join(' / ');
+}
+
+function buildMessage() {
+  if (entries.length === 0) return '';
+
+  // Sort entries by timestamp asc (chronological)
+  const sorted = [...entries].sort((a,b) => a.id - b.id);
+
+  // Group by customer (in order of first appearance)
+  const groups = [];  // [{customer, crew, entries: []}]
+  const groupMap = {};
+  for (const e of sorted) {
+    const key = e.crew + '/' + e.customer;
+    if (!(key in groupMap)) {
+      groupMap[key] = groups.length;
+      groups.push({ customer: e.customer, crew: e.crew, entries: [] });
+    }
+    groups[groupMap[key]].entries.push(e);
+  }
+
+  const lines = [];
+  const dateLabel = formatTodayDate();
+  lines.push('📅 ' + dateLabel);
+  lines.push('');
+
+  for (const g of groups) {
+    lines.push('━━━ ' + g.customer + ' ━━━');
+    // Container lines
+    let custTotal = 0;
+    for (const e of g.entries) {
+      const sizeNum = e.size === '20ft' ? '20' : '40';
+      let tierLabel = e.tier ? e.tier.label : 'Sin tier';
+      // Clean up tier label
+      tierLabel = tierLabel.replace(/\s+/g, ' ').trim();
+      // Enriquecer label con cantidades reales si están disponibles
+      tierLabel = enrichTierLabel(tierLabel, e.actualCtns, e.actualSkus);
+      const driving = e.section === 'DRIVING' || e.section === 'DRIVING OR NOT' || e.section === 'ALWAYS DRIVE' ? '+driving'
+                    : e.section === 'NOT DRIVING' ? '+no driving'
+                    : '';
+      lines.push('1*' + sizeNum + ' - ' + tierLabel + (driving ? ' ' + driving : '') + ' = $' + e.total.toFixed(2));
+      // Add extras inline if present
+      for (const ex of e.extras) {
+        lines.push('  + ' + ex.label + ' (' + ex.qty + '× $' + ex.unitPrice + ') = $' + ex.subtotal.toFixed(2));
+      }
+      custTotal += e.total;
+    }
+    // Customer total if more than 1 container
+    if (g.entries.length > 1) {
+      lines.push('Subtotal ' + g.customer + ': $' + custTotal.toFixed(2));
+    }
+    // People shares for this customer
+    const custPeople = {};
+    for (const e of g.entries) {
+      if (!e.people) continue;
+      for (const p of e.people) {
+        if (!custPeople[p.name]) custPeople[p.name] = 0;
+        custPeople[p.name] += p.amount;
+      }
+    }
+    if (Object.keys(custPeople).length > 0) {
+      const sortedP = Object.entries(custPeople).sort((a,b) => b[1] - a[1]);
+      for (const [name, amt] of sortedP) {
+        lines.push(name + ' = $' + amt.toFixed(2));
+      }
+    }
+    lines.push('');
+  }
+
+  // Consolidated total
+  if (groups.length > 1) {
+    lines.push('═══ CONSOLIDADO DEL DÍA ═══');
+    const dayTotal = entries.reduce((s,e) => s + e.total, 0);
+    lines.push('TOTAL: $' + dayTotal.toFixed(2));
+    const byPerson = {};
+    for (const e of entries) {
+      if (!e.people) continue;
+      for (const p of e.people) {
+        if (!byPerson[p.name]) byPerson[p.name] = 0;
+        byPerson[p.name] += p.amount;
+      }
+    }
+    if (Object.keys(byPerson).length > 0) {
+      const sortedP = Object.entries(byPerson).sort((a,b) => b[1] - a[1]);
+      for (const [name, amt] of sortedP) {
+        lines.push(name + ' = $' + amt.toFixed(2));
+      }
+    }
+  }
+
+  return lines.join('\n').trim();
+}
+
+async function copyMessage() {
+  const msg = buildMessage();
+  if (!msg) { showToast('No hay datos para copiar'); return; }
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      await navigator.clipboard.writeText(msg);
+      showToast('✓ Copiado al portapapeles');
+    } else {
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = msg;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast('✓ Copiado');
+    }
+  } catch(e) {
+    showToast('Error al copiar - usa WhatsApp');
+  }
+}
+
+function shareWhatsApp() {
+  const msg = buildMessage();
+  if (!msg) { showToast('No hay datos para compartir'); return; }
+  const url = 'https://wa.me/?text=' + encodeURIComponent(msg);
+  window.open(url, '_blank');
+}
+
+function showToast(text) {
+  const t = document.getElementById('toast');
+  t.textContent = text;
+  t.classList.add('show');
+  clearTimeout(window._toastTimer);
+  window._toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// ====== UTILS ======
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function escapeAttr(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+
+// ====== PWA: Service Worker (instalable + offline) ======
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js')
+      .then(reg => console.log('SW registered:', reg.scope))
+      .catch(err => console.warn('SW registration failed:', err));
+  });
+}
+
+// ====== INIT ======
+loadDay();
+</script>
+</body>
+</html>
