@@ -1,51 +1,64 @@
-// Service Worker mínimo para Top Crew Solutions PWA
-// Propósito: cumplir el requisito de Chrome Android para mostrar "Install app"
-// y permitir funcionamiento offline básico (cache-first strategy)
+// Service Worker – Top Crew Solutions PWA
+// Strategy: network-first for HTML navigation, cache-first for static assets.
 
-const CACHE_NAME = 'top-crew-v1';
-const ASSETS = [
-  './',
-  './index.html',
+const CACHE_NAME = 'top-crew-v2';
+const STATIC_ASSETS = [
   './manifest.json',
   './icon-192.png',
   './icon-512.png'
 ];
 
-// Install: cachear los assets principales
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(STATIC_ASSETS))
   );
   self.skipWaiting();
 });
 
-// Activate: limpiar caches viejos
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
       Promise.all(
         keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k))
       )
-    )
+    ).then(() => self.clients.claim())
   );
-  self.clients.claim();
 });
 
-// Fetch: cache-first, fallback a red
-// Este evento es REQUISITO de Chrome para considerar la app instalable
 self.addEventListener('fetch', (event) => {
-  // Solo GET requests
   if (event.request.method !== 'GET') return;
-  event.respondWith(
-    caches.match(event.request).then((cached) => {
-      return cached || fetch(event.request).then((response) => {
-        // Cache las respuestas exitosas del mismo origen
-        if (response.ok && new URL(event.request.url).origin === location.origin) {
-          const clone = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
-        }
-        return response;
-      }).catch(() => cached);  // Si falla red y no hay cache, falla silenciosamente
-    })
-  );
+
+  const url = new URL(event.request.url);
+  const isNavigation =
+    event.request.mode === 'navigate' ||
+    url.pathname.endsWith('/') ||
+    url.pathname.endsWith('/index.html');
+
+  if (isNavigation) {
+    // network-first: always try to get a fresh copy of the HTML
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          if (response.ok) {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+          }
+          return response;
+        })
+        .catch(() => caches.match(event.request))
+    );
+  } else {
+    // cache-first for icons, manifest, etc.
+    event.respondWith(
+      caches.match(event.request).then((cached) => {
+        return cached || fetch(event.request).then((response) => {
+          if (response.ok && url.origin === location.origin) {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+          }
+          return response;
+        });
+      })
+    );
+  }
 });

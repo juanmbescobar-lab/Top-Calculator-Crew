@@ -1,0 +1,5 @@
+*.bak
+*.xlsx
+*.zip
+update_prices.py
+.claude/
